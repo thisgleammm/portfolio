@@ -52,7 +52,7 @@ export default function Home() {
   return (
     <div ref={heroRef} className="flex min-h-screen w-full flex-col bg-background text-foreground overflow-x-hidden selection:bg-accent selection:text-accent-foreground transition-colors duration-300">
       {/* Navigation */}
-      <nav className="fixed top-0 flex w-full items-center justify-between p-4 md:p-6 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
+      <nav className="fixed top-0 flex w-full items-center justify-between p-4 md:p-6 z-50 bg-background/90 backdrop-blur-sm border-b border-border/40">
 
         {/* Logo */}
         <Link href="/" className="nav-reveal glass capsule flex items-center gap-3 hover:bg-accent-muted transition-colors active:scale-95 group">
@@ -186,7 +186,6 @@ export default function Home() {
       {/* About Section */}
       <section id="about" className="w-full px-6 pt-8 pb-20 md:pt-12 md:pb-32 bg-background relative z-10 transition-colors duration-500">
         <div className="max-w-5xl mx-auto">
-          {/* Style Header like image */}
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-12 max-w-3xl">
             Engineering the Future with Passion and Innovation
           </h2>
@@ -237,8 +236,8 @@ export default function Home() {
       {/* Background Decor */}
 
       <div className="fixed inset-0 pointer-events-none -z-10 bg-background transition-colors duration-500">
-        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-primary/5 blur-[120px] rounded-full animate-pulse-slow" />
-        <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-primary/5 blur-[100px] rounded-full animate-pulse-slow delay-700" />
+        <div className="absolute top-0 right-0 w-[40vw] h-[40vw] bg-primary/5 blur-[80px] rounded-full animate-pulse-slow will-change-transform" />
+        <div className="absolute bottom-0 left-0 w-[30vw] h-[30vw] bg-primary/5 blur-[60px] rounded-full animate-pulse-slow delay-700 will-change-transform" />
       </div>
     </div>
   );
