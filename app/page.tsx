@@ -7,6 +7,7 @@ import { Menu, X, Home as HomeIcon, LayoutGrid, User as UserIcon, Mail } from "l
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
 import { SpotifyWidget } from "@/components/spotify-widget";
+import { Footer } from "@/components/footer";
 
 export default function Home() {
 
@@ -232,6 +233,7 @@ export default function Home() {
         </div>
       </section>
 
+      <Footer />
 
       {/* Background Decor */}
 
