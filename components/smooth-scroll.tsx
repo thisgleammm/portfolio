@@ -10,12 +10,13 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // 1. Initialize Lenis
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.0,
+      easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)), // Snappier exponential out
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      touchMultiplier: 2,
+      wheelMultiplier: 1.2,
+      touchMultiplier: 1.5,
     });
 
     // 2. Integration with GSAP ScrollTrigger
@@ -23,18 +24,17 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
     lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const tickerUpdate = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
 
+    gsap.ticker.add(tickerUpdate);
     gsap.ticker.lagSmoothing(0);
 
     // 3. Cleanup
     return () => {
       lenis.destroy();
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
+      gsap.ticker.remove(tickerUpdate);
     };
   }, []);
 
