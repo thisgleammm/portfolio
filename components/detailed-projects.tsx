@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Layers, ArrowUpRight } from "lucide-react";
-import Link from "next/link";
+import { ExternalLink, Layers } from "lucide-react";
 import Image from "next/image";
 
 const GitHubIcon = ({ className }: { className?: string }) => (
@@ -20,7 +19,6 @@ interface Project {
   image: string;
   github: string;
   live: string | null;
-  slug?: string;
 }
 
 const PROJECTS: Project[] = [
@@ -32,7 +30,6 @@ const PROJECTS: Project[] = [
     image: "/project-eco.jpg",
     github: "https://github.com/thisgleammm",
     live: "https://gleam.web.id",
-    slug: "ecotrack-ai",
   },
   {
     title: "Insightful Dashboard",
@@ -110,20 +107,6 @@ export function DetailedProjects() {
                 </div>
 
                 <div className="mt-auto flex flex-wrap items-center gap-4 pt-6 border-t border-accent-muted/10">
-                  {project.slug ? (
-                    <Link 
-                      href={`/projects/${project.slug}`} 
-                      className="px-6 py-2.5 bg-foreground text-background dark:bg-white dark:text-black rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-primary inline-flex items-center gap-2"
-                    >
-                      Detailed Case Study
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </Link>
-                  ) : (
-                    <div className="px-6 py-2.5 bg-foreground/10 text-muted-foreground rounded-full text-xs font-black uppercase tracking-widest cursor-not-allowed opacity-50">
-                      Case Study Pending
-                    </div>
-                  )}
-                  
                   <a 
                     href={project.github} 
                     target="_blank" 
