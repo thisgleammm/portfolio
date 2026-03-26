@@ -1,5 +1,6 @@
 import * as React from "react";
 import { getGitHubContributions } from "@/lib/github";
+import { GitHubContributionView } from "./github-calendar-view";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -51,48 +52,14 @@ export async function GitHubContributionSSR({ username }: Props) {
         </div>
         
         <div className="relative w-full overflow-hidden">
-            <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
-                <div className="min-w-[760px] md:min-w-0">
-                    <svg
-                      viewBox={`0 0 ${displayWeeks.length * 16} ${7 * 16}`}
-                      className="w-full h-auto"
-                      shapeRendering="crispEdges"
-                    >
-                      {displayWeeks.map((week, weekIdx) => (
-                        <g key={weekIdx} transform={`translate(${weekIdx * 16}, 0)`}>
-                          {week.map((day, dayIdx) => (
-                            <rect
-                              key={dayIdx}
-                              x={0}
-                              y={dayIdx * 16}
-                              width={12}
-                              height={12}
-                              rx={3}
-                              ry={3}
-                              className={cn(
-                                "hover:stroke-primary/50 stroke-1 transition-all",
-                                day.level === 1 ? "fill-[#ffecec] dark:fill-[#3a0c0c]" :
-                                day.level === 2 ? "fill-[#ffcaca] dark:fill-[#6b1414]" :
-                                day.level === 3 ? "fill-[#ff6b6b] dark:fill-[#c92a2a]" :
-                                day.level === 4 ? "fill-[#800000] dark:fill-[#ff4b4b]" :
-                                "fill-[#f3f4f6] dark:fill-[#161b22]"
-                              )}
-                            >
-                              <title>{`${day.date}: ${day.count} contributions`}</title>
-                            </rect>
-                          ))}
-                        </g>
-                      ))}
-                    </svg>
-                    
-                    {/* Stats */}
-                    <div className="mt-6 flex gap-8 text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-40">
-                      <div className="flex items-center gap-2">
-                        <span className="text-primary">{Object.values(data.total).reduce((a, b) => a + b, 0)}</span>
-                        <span>contributions in the last year</span>
-                      </div>
-                    </div>
-                </div>
+            <GitHubContributionView displayWeeks={displayWeeks} />
+            
+            {/* Stats */}
+            <div className="mt-6 flex gap-8 text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-40 px-6">
+              <div className="flex items-center gap-2">
+                <span className="text-primary">{Object.values(data.total).reduce((a, b) => a + b, 0)}</span>
+                <span>contributions in the last year</span>
+              </div>
             </div>
         </div>
       </div>
