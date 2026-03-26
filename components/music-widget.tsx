@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { Music } from "lucide-react";
 
 type MusicData = {
@@ -44,14 +45,17 @@ export function MusicWidget() {
       href={data.songUrl || "#"} 
       target="_blank" 
       rel="noopener noreferrer"
-      className="glass capsule flex items-center gap-3 px-4 py-1.5 hover:bg-accent-muted transition-all group overflow-hidden max-w-[240px]"
+      className="glass capsule flex items-center gap-3 px-4 py-1.5 hover:bg-accent-muted transition-all group overflow-hidden max-w-[240px] outline-none focus-visible:ring-2 focus-visible:ring-primary"
     >
       <div className="relative flex items-center justify-center w-8 h-8 rounded-md bg-black/10 dark:bg-white/10 overflow-hidden shrink-0">
         {data.albumImageUrl ? (
-          <img 
+          <Image 
             src={data.albumImageUrl} 
             alt={data.album || "Album Art"} 
+            width={32}
+            height={32}
             className={data.isPlaying ? "animate-[spin_10s_linear_infinite]" : ""}
+            unoptimized={data.isPlaying} // Disable optimization for animated spin to avoid extra re-renders
           />
         ) : (
           <Music className="w-4 h-4 text-primary" />
