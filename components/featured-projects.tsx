@@ -14,29 +14,59 @@ interface MinimalProject {
 
 const PROJECTS: MinimalProject[] = [
   {
-    title: "EcoTrack AI",
+    title: "Discord Music Bot",
+    year: "2021",
+    tech: ["Javascript", "Discord.js"],
+    href: "https://github.com/thisgleam/thisgleam-botmusic",
+  },
+  {
+    title: "Beezleboy Discord Bot",
+    year: "2022",
+    tech: ["Javascript", "Discord.js"],
+    href: "https://github.com/thisgleam/BeezleboyBot",
+  },
+  {
+    title: "SIMPEL | STMI Interactive Management Platform for E-Learning",
     year: "2024",
-    tech: ["Computer Vision", "Python", "React"],
-    href: "https://github.com/thisgleammm",
+    tech: ["Laravel", "Tailwind CSS", "MySQL", "Alpine JS"],
+    href: "https://github.com/thisgleammm/stmi-lms",
   },
   {
-    title: "Insightful Dashboard",
-    year: "2024",
-    tech: ["Next.js", "Laravel", "Data Viz"],
-    href: "https://github.com/thisgleammm",
+    title: "SEACATERING",
+    year: "2025",
+    tech: ["Next.js", "Tailwind CSS", "PostgreSQL"],
+    href: "https://github.com/thisgleammm/seacatering",
   },
   {
-    title: "SafeWorker Platform",
-    year: "2023",
-    tech: ["PyTorch", "Docker", "Flask"],
-    href: "https://github.com/thisgleammm",
+    title: "Digital Invoice System | Lombok NTB Pearls",
+    year: "2025",
+    tech: ["PHP", "MariaDB", "Bootstrap"],
+    href: "",
   },
   {
-    title: "Neural Network Optimizer",
-    year: "2023",
-    tech: ["PyTorch", "Rust", "CUDA"],
-    href: "https://github.com/thisgleammm",
-  }
+    title: "Warehouse System | Reisen Gear",
+    year: "2025",
+    tech: ["PHP", "MariaDB", "Bootstrap"],
+    href: "",
+  },
+  {
+    title: "Motorcycle Workshop Management Application | Raffli Motor",
+    year: "2025",
+    tech: ["Flutter", "PostgreSQL", "Supabase", "Dart", "Next.js"],
+    href: "",
+  },
+  {
+    title: "Leakage Tester",
+    year: "2026",
+    tech: ["Python", "Raspberry Pi", "MySQL", "Open CV"],
+    href: "",
+  },
+  {
+    title: "POKETENASHI Safety Detection",
+    year: "2026",
+    tech: ["Python", "TensorFlow", "MySQL", "YOLO"],
+    href: "",
+  },
 ];
 
 export function FeaturedProjects() {
