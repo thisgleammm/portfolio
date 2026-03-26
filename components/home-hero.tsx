@@ -12,7 +12,10 @@ export function HomeHero() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const heroRef = React.useRef<HTMLDivElement>(null);
 
+  const [mounted, setMounted] = React.useState(false);
+
   React.useEffect(() => {
+    setMounted(true);
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
@@ -103,7 +106,11 @@ export function HomeHero() {
 
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-8 mt-12">
           <div className="hidden lg:block">
-            <span className="text-xs font-mono text-muted-foreground opacity-70 px-4 py-2 glass capsule">// Develop, Code, <span className="text-primary font-bold opacity-100">Engage</span></span>
+            {mounted && (
+              <span className="text-xs font-mono text-muted-foreground opacity-70 px-4 py-2 glass capsule" suppressHydrationWarning>
+                // Think, Build, <span className="text-primary font-bold opacity-100">Deploy</span>
+              </span>
+            )}
           </div>
           <div className="flex flex-col md:flex-row items-center gap-4">
             <div className="footer-reveal hidden lg:block"><MusicWidget /></div>

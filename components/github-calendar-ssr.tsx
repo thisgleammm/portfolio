@@ -23,19 +23,18 @@ export async function GitHubContributionSSR({ username }: Props) {
   // Slice to exactly 53 weeks to fit most screens nicely
   const displayWeeks = weeks.slice(-53);
 
-  const getLevelColor = (level: number) => {
-    switch (level) {
-      case 1: return "bg-[#ffecec] dark:bg-[#3a0c0c]";
-      case 2: return "bg-[#ffcaca] dark:bg-[#6b1414]";
-      case 3: return "bg-[#ff6b6b] dark:bg-[#c92a2a]";
-      case 4: return "bg-[#800000] dark:bg-[#ff4b4b]";
-      default: return "bg-[#f3f4f6] dark:bg-[#161b22]";
-    }
-  };
 
   return (
-    <section className="w-full py-20 px-6 relative overflow-hidden group shrink-0">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[40%] bg-primary/5 blur-[120px] rounded-full opacity-50 transition-opacity duration-1000 group-hover:opacity-100 pointer-events-none" />
+    <section 
+      className="w-full py-20 px-6 relative overflow-hidden group shrink-0"
+      style={{ 
+        contentVisibility: 'auto', 
+        containIntrinsicSize: '0 400px',
+        willChange: 'transform'
+      } as React.CSSProperties}
+    >
+      {/* Reduced Blur for Performance */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[40%] bg-primary/5 blur-[60px] rounded-full opacity-30 pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
@@ -51,27 +50,49 @@ export async function GitHubContributionSSR({ username }: Props) {
             <p className="max-w-xs text-xs md:text-sm text-muted-foreground font-medium opacity-60 leading-relaxed border-l-2 border-primary/20 pl-4 py-1">A visual representation of my coding activity and open-source contributions over the past year.</p>
         </div>
         
-        <div className="min-w-[760px] md:min-w-0 flex flex-col items-center">
-            <div className="flex gap-[4px]">
-              {displayWeeks.map((week, weekIdx) => (
-                <div key={weekIdx} className="flex flex-col gap-[4px]">
-                  {week.map((day, dayIdx) => (
-                    <div 
-                      key={dayIdx} 
-                      className={cn("w-[12px] h-[12px] rounded-[3px] transition-colors duration-500", getLevelColor(day.level))}
-                      title={`${day.date}: ${day.count} contributions`}
-                    />
-                  ))}
+        <div className="relative w-full overflow-hidden">
+            <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
+                <div className="min-w-[760px] md:min-w-0">
+                    <svg
+                      viewBox={`0 0 ${displayWeeks.length * 16} ${7 * 16}`}
+                      className="w-full h-auto"
+                      shapeRendering="crispEdges"
+                    >
+                      {displayWeeks.map((week, weekIdx) => (
+                        <g key={weekIdx} transform={`translate(${weekIdx * 16}, 0)`}>
+                          {week.map((day, dayIdx) => (
+                            <rect
+                              key={dayIdx}
+                              x={0}
+                              y={dayIdx * 16}
+                              width={12}
+                              height={12}
+                              rx={3}
+                              ry={3}
+                              className={cn(
+                                "hover:stroke-primary/50 stroke-1 transition-all",
+                                day.level === 1 ? "fill-[#ffecec] dark:fill-[#3a0c0c]" :
+                                day.level === 2 ? "fill-[#ffcaca] dark:fill-[#6b1414]" :
+                                day.level === 3 ? "fill-[#ff6b6b] dark:fill-[#c92a2a]" :
+                                day.level === 4 ? "fill-[#800000] dark:fill-[#ff4b4b]" :
+                                "fill-[#f3f4f6] dark:fill-[#161b22]"
+                              )}
+                            >
+                              <title>{`${day.date}: ${day.count} contributions`}</title>
+                            </rect>
+                          ))}
+                        </g>
+                      ))}
+                    </svg>
+                    
+                    {/* Stats */}
+                    <div className="mt-6 flex gap-8 text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-40">
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary">{Object.values(data.total).reduce((a, b) => a + b, 0)}</span>
+                        <span>contributions in the last year</span>
+                      </div>
+                    </div>
                 </div>
-              ))}
-            </div>
-            
-            {/* Stats */}
-            <div className="mt-8 flex gap-8 text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-40">
-              <div className="flex items-center gap-2">
-                <span className="text-primary">{Object.values(data.total).reduce((a, b) => a + b, 0)}</span>
-                <span>contributions in the last year</span>
-              </div>
             </div>
         </div>
       </div>
