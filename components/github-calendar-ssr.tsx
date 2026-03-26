@@ -51,38 +51,28 @@ export async function GitHubContributionSSR({ username }: Props) {
             <p className="max-w-xs text-xs md:text-sm text-muted-foreground font-medium opacity-60 leading-relaxed border-l-2 border-primary/20 pl-4 py-1">A visual representation of my coding activity and open-source contributions over the past year.</p>
         </div>
         
-        <div className="relative will-change-transform">
-            <div className="glass capsule p-8 md:p-12 overflow-x-auto scrollbar-hide border border-white/10 backdrop-blur-3xl transition-all duration-500 hover:border-primary/20">
-                <div className="min-w-[760px] md:min-w-0 flex flex-col items-center">
-                    <div className="flex gap-[4px]">
-                      {displayWeeks.map((week, weekIdx) => (
-                        <div key={weekIdx} className="flex flex-col gap-[4px]">
-                          {week.map((day, dayIdx) => (
-                            <div 
-                              key={dayIdx} 
-                              className={cn("w-[12px] h-[12px] rounded-[3px] transition-colors duration-500", getLevelColor(day.level))}
-                              title={`${day.date}: ${day.count} contributions`}
-                            />
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {/* Stats */}
-                    <div className="mt-8 flex gap-8 text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-40">
-                      <div className="flex items-center gap-2">
-                        <span>Total:</span>
-                        <span className="text-primary">{Object.values(data.total).reduce((a, b) => a + b, 0)}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span>Status:</span>
-                        <span className="text-primary">Active</span>
-                      </div>
-                    </div>
+        <div className="min-w-[760px] md:min-w-0 flex flex-col items-center">
+            <div className="flex gap-[4px]">
+              {displayWeeks.map((week, weekIdx) => (
+                <div key={weekIdx} className="flex flex-col gap-[4px]">
+                  {week.map((day, dayIdx) => (
+                    <div 
+                      key={dayIdx} 
+                      className={cn("w-[12px] h-[12px] rounded-[3px] transition-colors duration-500", getLevelColor(day.level))}
+                      title={`${day.date}: ${day.count} contributions`}
+                    />
+                  ))}
                 </div>
+              ))}
             </div>
-            <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background to-transparent md:hidden pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent md:hidden pointer-events-none" />
+            
+            {/* Stats */}
+            <div className="mt-8 flex gap-8 text-[10px] md:text-xs font-bold uppercase tracking-widest opacity-40">
+              <div className="flex items-center gap-2">
+                <span className="text-primary">{Object.values(data.total).reduce((a, b) => a + b, 0)}</span>
+                <span>contributions in the last year</span>
+              </div>
+            </div>
         </div>
       </div>
     </section>

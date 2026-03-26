@@ -61,42 +61,32 @@ export const GitHubContributionGraph = React.memo(() => {
             </p>
         </div>
         
-        {/* Graph Container */}
-        <div className="relative will-change-transform">
-            {/* Glass Container */}
-            <div className="glass capsule p-8 md:p-12 overflow-x-auto scrollbar-hide border border-white/10 backdrop-blur-3xl transition-all duration-500 hover:border-primary/20">
-                <div className="min-w-[760px] md:min-w-0 flex justify-center">
-                    {isMounted ? (
-                      <GitHubCalendar 
-                          username="thisgleammm" 
-                          fontSize={11}
-                          blockSize={12}
-                          blockRadius={3}
-                          blockMargin={4}
-                          colorScheme={theme === "dark" ? "dark" : "light"}
-                          theme={{
-                              light: themeValues.light,
-                              dark: themeValues.dark
-                          }}
-                      />
-                    ) : (
-                      // Mock Grid Placeholder for smoother initial appearance
-                      <div className="flex flex-col gap-[4px] opacity-10">
-                        {Array.from({ length: 7 }).map((_, i) => (
-                          <div key={i} className="flex gap-[4px]">
-                            {Array.from({ length: 52 }).map((_, j) => (
-                              <div key={j} className="w-[12px] h-[12px] rounded-[3px] bg-foreground/20" />
-                            ))}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                </div>
-            </div>
-
-            {/* Subtle Gradient Overlays for mobile scrolling */}
-            <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background to-transparent md:hidden pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background to-transparent md:hidden pointer-events-none" />
+        <div className="min-w-[760px] md:min-w-0 flex justify-center p-4">
+            {isMounted ? (
+              <GitHubCalendar 
+                  username="thisgleammm" 
+                  fontSize={11}
+                  blockSize={12}
+                  blockRadius={3}
+                  blockMargin={4}
+                  colorScheme={theme === "dark" ? "dark" : "light"}
+                  theme={{
+                      light: themeValues.light,
+                      dark: themeValues.dark
+                  }}
+              />
+            ) : (
+              // Mock Grid Placeholder for smoother initial appearance
+              <div className="flex flex-col gap-[4px] opacity-10">
+                {Array.from({ length: 7 }).map((_, i) => (
+                  <div key={i} className="flex gap-[4px]">
+                    {Array.from({ length: 52 }).map((_, j) => (
+                      <div key={j} className="w-[12px] h-[12px] rounded-[3px] bg-foreground/20" />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
         </div>
 
       </div>

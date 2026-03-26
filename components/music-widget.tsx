@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Music } from "lucide-react";
 
-type SpotifyData = {
+type MusicData = {
   album?: string;
   albumImageUrl?: string;
   artist?: string;
@@ -12,23 +12,23 @@ type SpotifyData = {
   title?: string;
 };
 
-export function SpotifyWidget() {
-  const [data, setData] = React.useState<SpotifyData | null>(null);
+export function MusicWidget() {
+  const [data, setData] = React.useState<MusicData | null>(null);
 
   React.useEffect(() => {
-    const fetchSpotify = async () => {
+    const fetchMusic = async () => {
       try {
-        const response = await fetch("/api/spotify");
+        const response = await fetch("/api/music");
         if (response.ok) {
           setData(await response.json());
         }
       } catch (error) {
-        console.error("Error fetching Spotify:", error);
+        console.error("Error fetching Music:", error);
       }
     };
 
-    fetchSpotify();
-    const interval = setInterval(fetchSpotify, 30000); // Poll every 30 seconds
+    fetchMusic();
+    const interval = setInterval(fetchMusic, 30000); // Poll every 30 seconds
     return () => clearInterval(interval);
   }, []);
 
