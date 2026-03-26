@@ -61,7 +61,7 @@ export default async function Page() {
       </section>
 
       {/* GitHub Contribution (Server Component - 100% Instant) */}
-      {/* <GitHubContributionSSR username="thisgleammm" /> */}
+      <GitHubContributionSSR username="thisgleammm" />
 
       <Footer />
 
