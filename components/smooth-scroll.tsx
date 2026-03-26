@@ -3,8 +3,6 @@
 import * as React from "react";
 import { useEffect, createContext, useContext, useState } from "react";
 import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const LenisContext = createContext<Lenis | null>(null);
 
@@ -34,21 +32,19 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     // Prevents conflicts with browser physical scroll
     document.body.style.overscrollBehavior = "none";
     
-    // 3. Integration with GSAP ScrollTrigger
-    gsap.registerPlugin(ScrollTrigger);
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const tickerUpdate = (time: number) => {
-      lenis.raf(time * 1000);
+    // 3. Animation Loop
+    let rafId: number;
+    const animate = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(animate);
     };
 
-    gsap.ticker.add(tickerUpdate);
-    gsap.ticker.lagSmoothing(0);
+    rafId = requestAnimationFrame(animate);
 
     // 4. Cleanup
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(tickerUpdate);
+      cancelAnimationFrame(rafId);
       document.body.style.overscrollBehavior = "";
       setLenisRef(null);
     };
