@@ -24,7 +24,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="w-full bg-background pt-20 pb-12 px-6 md:px-10 border-t border-border/20">
+    <footer className="w-full bg-background pt-10 pb-12 px-6 md:px-10 border-t border-border/20">
       <div className="max-w-7xl mx-auto flex flex-col">
         
         {/* Top Row: Copyright & Back to Top */}

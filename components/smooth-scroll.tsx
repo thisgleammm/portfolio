@@ -19,18 +19,22 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // 1. Initialize Lenis
     const lenis = new Lenis({
-      duration: 1.0,
-      easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+      lerp: 0.1,
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1.2,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.2,
+      syncTouch: true,
     });
 
     setLenisRef(lenis);
 
-    // 2. Integration with GSAP ScrollTrigger
+    // 2. Optimization for Safari & Older Macs
+    // Prevents conflicts with browser physical scroll
+    document.body.style.overscrollBehavior = "none";
+    
+    // 3. Integration with GSAP ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
     lenis.on("scroll", ScrollTrigger.update);
 
@@ -41,10 +45,11 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     gsap.ticker.add(tickerUpdate);
     gsap.ticker.lagSmoothing(0);
 
-    // 3. Cleanup
+    // 4. Cleanup
     return () => {
       lenis.destroy();
       gsap.ticker.remove(tickerUpdate);
+      document.body.style.overscrollBehavior = "";
       setLenisRef(null);
     };
   }, []);
