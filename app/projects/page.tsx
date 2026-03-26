@@ -1,9 +1,6 @@
-import * as React from "react";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { Home, ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { DetailedProjects } from "@/components/detailed-projects";
 import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
 
 export const metadata = {
   title: "Projects | Muhammad Gleam Mulyawan",
@@ -13,20 +10,7 @@ export const metadata = {
 export default function ProjectsPage() {
   return (
     <main className="min-h-screen w-full flex flex-col bg-background text-foreground transition-colors duration-500 selection:bg-primary/20 selection:text-primary">
-      {/* Mini Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 p-6 flex items-center justify-between pointer-events-none">
-        <Link 
-          href="/" 
-          className="glass capsule pointer-events-auto flex items-center gap-2 text-sm font-bold px-6 py-2.5 hover:bg-accent-muted transition-all active:scale-95 group focus-visible:ring-2 focus-visible:ring-primary outline-none"
-        >
-          <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-          Back to Home
-        </Link>
-        
-        <div className="pointer-events-auto">
-          <ThemeToggle />
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Header */}
       <div className="container mx-auto px-6 pt-40 pb-12">

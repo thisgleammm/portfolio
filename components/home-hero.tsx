@@ -1,20 +1,12 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { Menu, X, Home as HomeIcon, LayoutGrid, User as UserIcon, Mail } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { MusicWidget } from "@/components/music-widget";
+import { Navbar } from "@/components/navbar";
+import { Mail } from "lucide-react";
 
 // --- Hoisted Constants (Rule: rendering-hoist-jsx & rerender-dependencies) ---
-
-const NAV_LINKS = [
-  { name: "Home", href: "/", icon: <HomeIcon className="w-4 h-4" /> },
-  { name: "My Projects", href: "/projects", icon: <LayoutGrid className="w-4 h-4" /> },
-  { name: "About Me", href: "/about", icon: <UserIcon className="w-4 h-4" /> },
-];
 
 const CONTAINER_VARIANTS = {
   hidden: { opacity: 0 },
@@ -39,112 +31,7 @@ const ITEM_VARIANTS = {
   },
 };
 
-const NAV_VARIANTS = {
-  hidden: { y: -20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
-  },
-};
-
 // --- Sub-components (Rule: rerender-memo) ---
-
-const Navbar = React.memo(({ onToggleMenu, isMenuOpen }: { onToggleMenu: () => void; isMenuOpen: boolean }) => {
-  return (
-    <motion.nav 
-      initial="hidden"
-      animate="visible"
-      variants={{
-        visible: { transition: { staggerChildren: 0.05 } }
-      }}
-      className="fixed top-0 flex w-full items-center justify-between p-4 md:p-6 z-50 bg-background/90 backdrop-blur-sm border-b border-border/40"
-    >
-      <motion.div variants={NAV_VARIANTS}>
-        <Link href="/" className="glass capsule flex items-center gap-3 hover:bg-accent-muted transition-colors active:scale-95 group focus-visible:ring-2 focus-visible:ring-primary outline-none">
-          <div className="h-3 w-3 md:h-4 md:w-4 rounded-full bg-primary group-hover:scale-110 transition-transform" />
-          <span className="font-semibold tracking-tight text-sm md:text-base">thisgleam</span>
-        </Link>
-      </motion.div>
-
-      <motion.div variants={NAV_VARIANTS} className="glass capsule hidden md:flex items-center gap-6">
-        {NAV_LINKS.map((link) => (
-          <Link 
-            key={link.name} 
-            href={link.href} 
-            className="flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors focus-visible:text-primary outline-none"
-          >
-            {link.icon}
-            {link.name}
-          </Link>
-        ))}
-      </motion.div>
-
-      <motion.div variants={NAV_VARIANTS} className="flex items-center gap-2 md:gap-3">
-        <ThemeToggle />
-        <Link href="/contact" className="glass capsule hidden sm:flex items-center gap-2 text-sm font-medium hover:bg-accent-muted transition-all active:scale-95 focus-visible:ring-2 focus-visible:ring-primary outline-none">
-          <Mail className="w-4 h-4" />
-          Contact Me
-        </Link>
-
-        <button 
-          onClick={onToggleMenu} 
-          className="md:hidden glass capsule p-2 flex items-center justify-center hover:bg-accent-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary outline-none" 
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isMenuOpen}
-        >
-          {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </motion.div>
-    </motion.nav>
-  );
-});
-Navbar.displayName = "Navbar";
-
-const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div 
-          initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-          animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
-          exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-          className="fixed inset-0 z-40 bg-background/80 md:hidden flex flex-col items-center justify-center p-6"
-        >
-          <motion.div 
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            className="flex flex-col gap-8 w-full max-w-xs"
-          >
-            {NAV_LINKS.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.href} 
-                onClick={onClose} 
-                className="flex items-center gap-4 text-2xl font-bold hover:text-primary transition-colors focus-visible:text-primary outline-none"
-              >
-                <div className="scale-150">{link.icon}</div>
-                {link.name}
-              </Link>
-            ))}
-            <Link 
-              href="/contact" 
-              onClick={onClose} 
-              className="flex items-center gap-4 text-2xl font-bold hover:text-primary transition-colors focus-visible:text-primary outline-none"
-            >
-              <Mail className="w-8 h-8" />
-              Contact Me
-            </Link>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
 
 const HeroContent = React.memo(() => {
   const [mounted, setMounted] = React.useState(false);
@@ -225,16 +112,9 @@ const HeroContent = React.memo(() => {
 HeroContent.displayName = "HeroContent";
 
 export function HomeHero() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  // Functional toggle to ensure stable callbacks (Rule: rerender-functional-setstate)
-  const toggleMenu = React.useCallback(() => setIsMenuOpen(prev => !prev), []);
-  const closeMenu = React.useCallback(() => setIsMenuOpen(false), []);
-
   return (
     <div className="flex min-h-screen w-full flex-col bg-background text-foreground overflow-x-hidden transition-colors duration-300">
-      <Navbar onToggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
-      <MobileMenu isOpen={isMenuOpen} onClose={closeMenu} />
+      <Navbar />
       <HeroContent />
     </div>
   );
