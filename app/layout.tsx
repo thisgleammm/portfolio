@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   description: "Portfolio of Muhammad Gleam Mulyawan, a full-stack web and mobile developer specialized in high-performance and aesthetic applications.",
 };
 
+import { Analytics } from "@vercel/analytics/next";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -41,6 +43,7 @@ export default function RootLayout({
 
           <SmoothScroll>
             {children}
+            <Analytics />
           </SmoothScroll>
         </ThemeProvider>
 
