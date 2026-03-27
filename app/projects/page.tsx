@@ -3,7 +3,7 @@ import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 
 export const metadata = {
-  title: "Projects | Muhammad Gleam Mulyawan",
+  title: "Projects",
   description: "A comprehensive showcase of software engineering projects, from computer vision systems to full-stack web applications.",
 };
 

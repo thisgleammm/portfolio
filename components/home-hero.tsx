@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useTransform } from "framer-motion";
+import { useScrollProgress } from "@/hooks/use-scroll-progress";
 import { MusicWidget } from "@/components/music-widget";
 import { Navbar } from "@/components/navbar";
 import { Mail } from "lucide-react";
@@ -35,7 +36,7 @@ const ITEM_VARIANTS = {
 
 const HeroContent = React.memo(() => {
   const [mounted, setMounted] = React.useState(false);
-  const { scrollY } = useScroll();
+  const { scrollY } = useScrollProgress();
   
   // Parallax effect: Content moves at 20% speed of scroll (Rule: parallax-storytelling)
   const y = useTransform(scrollY, [0, 500], [0, 100]);
@@ -113,7 +114,7 @@ HeroContent.displayName = "HeroContent";
 
 export function HomeHero() {
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background text-foreground overflow-x-hidden transition-colors duration-300">
+    <div className="relative flex min-h-screen w-full flex-col bg-background text-foreground overflow-x-hidden transition-colors duration-300">
       <Navbar />
       <HeroContent />
     </div>

@@ -72,7 +72,7 @@ const PROJECTS: Project[] = [
     year: "2025",
     description: "Modern meal delivery platform featuring NextAuth subscription management, admin dashboard, and responsive UI components with CSRF protection.",
     tech: ["Next.js", "NextAuth", "Prisma", "PostgreSQL"],
-    image: "/project-sea.jpg",
+    image: "/project-sea.png",
     github: "https://github.com/thisgleammm/seacatering",
     live: null,
   },
@@ -81,7 +81,7 @@ const PROJECTS: Project[] = [
     year: "2024",
     description: "Interactive e-learning management platform built with Laravel and Alpine.js, enhancing the learning experience with streamlined administration.",
     tech: ["Laravel", "Tailwind CSS", "MySQL", "Alpine.js"],
-    image: "/project-simpel.jpg",
+    image: "/project-simpel.png",
     github: "https://github.com/thisgleammm/stmi-lms",
     live: null,
   },
@@ -99,11 +99,84 @@ const PROJECTS: Project[] = [
     year: "2021",
     description: "High-performance bot designed to play music from YouTube, Spotify, and SoundCloud in Discord voice channels.",
     tech: ["Javascript", "Node.js", "Discord.js"],
-    image: "/project-musicbot.jpg",
+    image: "/project-musicbot.png",
     github: "https://github.com/thisgleam/thisgleam-botmusic",
     live: null,
   }
 ];
+
+const ProjectImage = ({ project, index }: { project: Project; index: number }) => {
+  const [mounted, setMounted] = React.useState(false);
+  const [hasError, setHasError] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Constants for container aspect ratio (16/10)
+  const CONTAINER_RATIO = 10 / 16; // 0.625
+
+  // Real pixel dimensions for each project image
+  const IMAGE_DIMENSIONS: Record<string, { width: number; height: number }> = {
+    "/project-simpel.png":     { width: 2571, height: 2412 },
+    "/project-sea.png":        { width: 992,  height: 1280 },
+    "/project-musicbot.png":   { width: 641,  height: 479 },
+    // Remaining images use the error fallback (Layers icon), so dimensions are irrelevant.
+    // If images are added later, register their real dimensions here.
+  };
+
+  const dimensions = IMAGE_DIMENSIONS[project.image] ?? { width: 1200, height: 800 };
+  const imageRatio = dimensions.height / dimensions.width;
+
+  // Calculate exactly how much to pan (as % of image height) to reach the bottom
+  const panPercent = imageRatio > CONTAINER_RATIO 
+    ? -((imageRatio - CONTAINER_RATIO) / imageRatio) * 100 
+    : 0;
+
+  // Adjust duration proportionally — taller images scroll longer for consistent speed
+  const baseDuration = 12;
+  const duration = imageRatio > CONTAINER_RATIO 
+    ? baseDuration * (imageRatio / CONTAINER_RATIO) 
+    : 0;
+
+  if (!mounted) {
+    return <div className="absolute inset-0 bg-accent-muted/5 animate-pulse" />;
+  }
+
+  return (
+    <div className="relative w-full h-full overflow-hidden">
+      {!hasError ? (
+        <motion.div 
+          className="absolute top-0 left-0 w-full"
+          initial={{ y: "0%" }}
+          animate={{ y: `${panPercent}%` }}
+          transition={{
+            duration: Math.max(duration, 15), 
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+            delay: index * 0.8,
+          }}
+        >
+          <Image 
+            src={project.image}
+            alt={project.title}
+            width={dimensions.width}
+            height={dimensions.height}
+            className="w-full h-auto transition-opacity duration-700"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={index < 2}
+            onError={() => setHasError(true)}
+          />
+        </motion.div>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:scale-110 transition-transform duration-700">
+           <Layers className="w-20 h-20 text-foreground" />
+        </div>
+      )}
+    </div>
+  );
+};
 
 export function DetailedProjects() {
   return (
@@ -123,9 +196,7 @@ export function DetailedProjects() {
               <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-accent-muted/20 border border-accent-muted/10 mb-8 overflow-clip">
                 <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors duration-500 z-10" />
                 
-                <div className="absolute inset-0 flex items-center justify-center opacity-20 group-hover:scale-110 transition-transform duration-700">
-                   <Layers className="w-20 h-20 text-foreground" />
-                </div>
+                <ProjectImage project={project} index={index} />
                 
                 <div className="absolute top-4 left-4 z-20">
                   <span className="px-4 py-1.5 glass capsule text-[10px] font-black uppercase tracking-widest">

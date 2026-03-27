@@ -9,7 +9,7 @@ import { FeaturedProjects } from "@/components/featured-projects";
 
 export default async function Page() {
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background text-foreground overflow-x-hidden selection:bg-accent selection:text-accent-foreground transition-colors duration-300">
+    <div className="relative flex min-h-screen w-full flex-col bg-background text-foreground overflow-x-hidden selection:bg-accent selection:text-accent-foreground transition-colors duration-300">
       
       {/* Client-side Hero & Nav */}
       <HomeHero />

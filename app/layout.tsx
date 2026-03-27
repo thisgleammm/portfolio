@@ -73,7 +73,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased selection:bg-primary/20 selection:text-primary`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="relative min-h-full flex flex-col">
         <ScrollProgress />
         <script
           type="application/ld+json"
