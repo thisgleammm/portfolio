@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://gleam.web.id"),
   title: {
     default: "Muhammad Gleam Mulyawan | Software Engineer",
     template: "%s | Muhammad Gleam Mulyawan",
