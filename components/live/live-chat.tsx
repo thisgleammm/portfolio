@@ -113,7 +113,7 @@ export function LiveChatWidget() {
                 <div>
                   <h3 className="text-sm font-black uppercase tracking-widest leading-none">Global Hub</h3>
                   <p className="text-[10px] text-muted-foreground uppercase tracking-tight mt-1">
-                    {messages.length} Events • {isConnected ? "Listening" : "Connecting"}
+                    {messages.length} Chats • {isConnected ? "Listening" : "Connecting"}
                   </p>
                 </div>
               </div>
@@ -132,7 +132,8 @@ export function LiveChatWidget() {
             <div
               ref={scrollRef}
               onScroll={handleScroll}
-              className="flex-1 overflow-y-auto px-5 py-6 space-y-6 scroll-smooth scrollbar-hide"
+              data-lenis-prevent="true"
+              className="flex-1 overflow-y-auto px-5 py-6 space-y-6 scroll-smooth scrollbar-hide overscroll-contain"
             >
               {messages.length === 0 && (
                 <div className="h-full flex flex-col items-center justify-center opacity-40">
@@ -142,12 +143,10 @@ export function LiveChatWidget() {
               )}
               
               <AnimatePresence initial={false}>
-                {messages.map((msg, index) => (
+                {messages.map((msg) => (
                   <MessageItem
                     key={msg.id}
                     message={msg}
-                    index={index}
-                    totalMessages={messages.length}
                   />
                 ))}
               </AnimatePresence>
@@ -211,29 +210,17 @@ export function LiveChatWidget() {
   );
 }
 
-function MessageItem({ message, index, totalMessages }: { message: Message; index: number; totalMessages: number }) {
-  const distance = totalMessages - 1 - index;
-  const perspectiveScale = Math.max(0.85, 1 - distance * 0.015);
-  const perspectiveOpacity = Math.max(0.3, 1 - distance * 0.05);
-
+function MessageItem({ message }: { message: Message }) {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, x: message.isMe ? 20 : -20, scale: 0.9 }}
-      animate={{
-        opacity: perspectiveOpacity,
-        x: 0,
-        scale: perspectiveScale,
-        filter: distance > 4 ? "blur(1px)" : "blur(0px)"
-      }}
+      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{
         type: "spring",
         stiffness: 400,
         damping: 30,
         opacity: { duration: 0.2 }
-      }}
-      style={{
-        transformOrigin: message.isMe ? "right center" : "left center" 
       }}
       className={cn(
         "flex gap-3 w-full",
@@ -250,9 +237,6 @@ function MessageItem({ message, index, totalMessages }: { message: Message; inde
               height={32}
               className="object-cover"
             />
-          </div>
-          <div className="absolute -top-1 -left-1">
-            <Zap className="w-2.5 h-2.5 text-primary fill-primary" />
           </div>
         </div>
       )}
