@@ -206,7 +206,7 @@ export default function AboutContent() {
                         <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-primary border-4 border-background" />
                         <p className="text-xs font-mono font-bold text-primary mb-2">January 2026 — Present</p>
                         <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Computer Vision Developer Intern <br /> PT. KAYABA INDONESIA</h3>
-                        <p className="text-muted-foreground md:text-lg leading-relaxed mt-2 max-w-2xl">Engineering bespoke digital solutions for retail and manufacturing, focusing on automated reporting and real-time inventory systems.</p>
+                        <p className="text-muted-foreground md:text-lg leading-relaxed mt-2 max-w-2xl">-</p>
                      </div>
                      <div className="relative">
                         <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-accent-muted border-4 border-background" />
@@ -222,13 +222,13 @@ export default function AboutContent() {
                         <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-accent-muted border-4 border-background" />
                         <p className="text-xs font-mono font-bold text-muted-foreground mb-2">March 2024 — February 2025</p>
                         <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Academic Division Staff <br /> HIMASIS Politeknik STMI Jakarta</h3>
-                        <p className="text-muted-foreground md:text-lg leading-relaxed mt-2 max-w-2xl">Exploring industrial automation and IoT integration, bridging the gap between hardware nodes and centralized data hubs.</p>
+                        <p className="text-muted-foreground md:text-lg leading-relaxed mt-2 max-w-2xl">-</p>
                      </div>
                      <div className="relative">
                         <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-accent-muted border-4 border-background" />
                         <p className="text-xs font-mono font-bold text-muted-foreground mb-2">July 2024 — August 2024</p>
                         <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Web Developer Intern <br /> SMPTIT Nurul Fikri Bekasi</h3>
-                        <p className="text-muted-foreground md:text-lg leading-relaxed mt-2 max-w-2xl">Exploring industrial automation and IoT integration, bridging the gap between hardware nodes and centralized data hubs.</p>
+                        <p className="text-muted-foreground md:text-lg leading-relaxed mt-2 max-w-2xl">-</p>
                      </div>
                   </div>
 

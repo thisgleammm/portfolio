@@ -6,7 +6,8 @@ import { Menu, X, Home as HomeIcon, LayoutGrid, User as UserIcon, Mail, SquareTe
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { usePathname } from "next/navigation";
-import { Show, SignInButton, UserButton } from "@clerk/nextjs";
+import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
+import { LiveChatWidget } from "@/components/live/live-chat";
 
 const NAV_LINKS = [
   { name: "Home", href: "/", icon: <HomeIcon className="w-4 h-4" /> },
@@ -81,6 +82,7 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const toggleMenu = React.useCallback(() => setIsMenuOpen(prev => !prev), []);
   const closeMenu = React.useCallback(() => setIsMenuOpen(false), []);
+  const { isSignedIn } = useUser();
 
   return (
     <>
@@ -129,16 +131,16 @@ export function Navbar() {
               <Mail className="w-4 h-4" />
               Contact Me
             </Link>
-            <Show when="signed-out">
+            <LiveChatWidget />
+            {isSignedIn ? (
+              <UserButton />
+            ) : (
               <SignInButton mode="modal">
                 <button className="bg-primary text-white hover:bg-primary/90 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 hidden sm:block shadow-lg shadow-primary/20">
                   Log In
                 </button>
               </SignInButton>
-            </Show>
-            <Show when="signed-in">
-              <UserButton />
-            </Show>
+            )}
 
             <button
               onClick={toggleMenu}
