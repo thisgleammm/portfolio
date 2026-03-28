@@ -6,6 +6,7 @@ import { Menu, X, Home as HomeIcon, LayoutGrid, User as UserIcon, Mail, SquareTe
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { usePathname } from "next/navigation";
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 
 const NAV_LINKS = [
   { name: "Home", href: "/", icon: <HomeIcon className="w-4 h-4" /> },
@@ -129,6 +130,18 @@ export function Navbar() {
             <Mail className="w-4 h-4" />
             Contact Me
           </Link>
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button className="bg-primary text-white hover:bg-primary/90 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 hidden sm:block shadow-lg shadow-primary/20">
+                Log In
+              </button>
+            </SignInButton>
+          </Show>
+          <Show when="signed-in">
+            <div className="glass px-1.5 py-1.5 rounded-full border border-primary/20">
+              <UserButton />
+            </div>
+          </Show>
 
           <button 
             onClick={toggleMenu} 
