@@ -1,11 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { SquareTerminal, Award, Camera, ChevronLeft, Calendar, MapPin } from "lucide-react";
+import { SquareTerminal, Award, Camera, Calendar, MapPin } from "lucide-react";
 import { ScrollReveal } from "@/components/scroll-reveal";
 
 const CREDENTIALS = [
@@ -57,54 +55,23 @@ const EVENTS = [
 ];
 
 export default function CredentialsContent() {
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <main className="min-h-screen w-full flex flex-col bg-background text-foreground selection:bg-primary/20 selection:text-primary overflow-x-hidden">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-6 pt-40 pb-20">
-        <div className="flex flex-col gap-6 max-w-5xl">
-          <Link 
-            href="/about" 
-            className="group inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-muted-foreground hover:text-primary transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Back to About
-          </Link>
-          
-          {!mounted ? (
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase leading-none">
-              Registry / <br />
-              <span className="text-primary italic">Credentials</span>
-            </h1>
-          ) : (
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-              className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase leading-none"
-            >
-              Registry / <br />
-              <span className="text-primary italic">Credentials</span>
-            </motion.h1>
-          )}
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-            className="mt-8 text-xl md:text-2xl text-muted-foreground font-medium leading-relaxed max-w-3xl"
-          >
+      {/* Header */}
+      <div className="container mx-auto px-6 pt-40 pb-12">
+        <div className="flex flex-col gap-4 max-w-4xl">
+          <span className="text-sm font-black uppercase tracking-[0.4em] text-primary/60">Official / Verified</span>
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase leading-none text-foreground">
+            Registry / <br /> <span className="text-primary italic">Credentials</span>
+          </h1>
+          <p className="mt-8 text-lg md:text-2xl text-muted-foreground font-medium leading-relaxed max-w-2xl">
             A technical record of official certifications, professional licenses, and participation in the engineering ecosystem.
-          </motion.p>
+          </p>
         </div>
-      </section>
+      </div>
 
       {/* Registry Section */}
       <section className="container mx-auto px-6 py-24 bg-accent-muted/5 border-y border-accent-muted/10">
