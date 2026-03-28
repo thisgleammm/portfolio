@@ -138,9 +138,7 @@ export function Navbar() {
             </SignInButton>
           </Show>
           <Show when="signed-in">
-            <div className="glass px-1.5 py-1.5 rounded-full border border-primary/20">
               <UserButton />
-            </div>
           </Show>
 
           <button 
