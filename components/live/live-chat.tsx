@@ -97,7 +97,7 @@ export function LiveChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="fixed top-[88px] right-4 md:right-6 w-[360px] max-w-[calc(100vw-32px)] h-[500px] max-h-[calc(100vh-120px)] flex flex-col pointer-events-auto border border-accent-muted/10 dark:border-white/5 bg-background/80 backdrop-blur-3xl rounded-3xl overflow-hidden shadow-2xl z-[100]"
+            className="fixed top-[88px] right-4 md:right-6 w-[380px] md:w-[440px] max-w-[calc(100vw-32px)] h-[580px] md:h-[650px] max-h-[calc(100vh-120px)] flex flex-col pointer-events-auto border border-accent-muted/10 dark:border-white/5 bg-background/80 backdrop-blur-3xl rounded-3xl overflow-hidden shadow-2xl z-[100]"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-accent-muted/10 dark:border-white/5 bg-background/50">
@@ -211,6 +211,14 @@ export function LiveChatWidget() {
 }
 
 function MessageItem({ message }: { message: Message }) {
+  // Extract YouTube ID
+  const ytMatch = message.content.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  const videoId = ytMatch ? ytMatch[1] : null;
+
+  // Extract trusted Image / GIF URL
+  const imgMatch = message.content.match(/(?:https:\/\/)(?:[a-zA-Z0-9-]+\.)*(?:imgur\.com|giphy\.com|tenor\.com|unsplash\.com|githubusercontent\.com|discordapp\.com|discordapp\.net|twimg\.com)\/[^\s]+\.(?:jpg|jpeg|png|gif|webp)(?:\?[^\s]*)?/i);
+  const imageUrl = imgMatch ? imgMatch[0] : null;
+
   return (
     <motion.div
       layout
@@ -229,36 +237,73 @@ function MessageItem({ message }: { message: Message }) {
     >
       {!message.isMe && (
         <div className="relative shrink-0 mt-1">
-          <div className="w-8 h-8 rounded-xl overflow-hidden border border-accent-muted/20 bg-muted/20">
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl md:rounded-2xl overflow-hidden border border-accent-muted/20 bg-muted/20">
             <Image
               src={message.userImage || "https://api.dicebear.com/7.x/avataaars/svg?seed=Ghost"}
               alt={message.userName}
-              width={32}
-              height={32}
-              className="object-cover"
+              width={40}
+              height={40}
+              className="object-cover w-full h-full"
             />
           </div>
         </div>
       )}
 
       <div className={cn(
-        "flex flex-col gap-1 max-w-[85%]",
-        message.isMe ? "items-end" : "items-start"
+        "flex flex-col gap-1.5 max-w-[85%]",
+        message.isMe ? "items-end" : "items-start",
+        (videoId || imageUrl) && "w-[95%] md:w-[85%]"
       )}>
         <div className="flex items-center gap-1.5 px-1">
-          <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60">{message.userName}</span>
-          <span className="text-[8px] font-mono text-muted-foreground/30 italic">
+          <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">{message.userName}</span>
+          <span className="text-[9px] font-mono text-muted-foreground/30 italic">
             {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         </div>
 
         <div className={cn(
-          "relative px-4 py-2.5 rounded-2xl text-xs font-medium leading-relaxed tracking-tight break-words",
+          "relative px-4 py-3 rounded-2xl text-[13px] font-medium leading-relaxed tracking-tight break-words",
           message.isMe
             ? "bg-primary text-white rounded-tr-none shadow-md"
-            : "bg-muted/40 text-foreground rounded-tl-none border border-accent-muted/5 dark:bg-white/5"
+            : "bg-muted/40 text-foreground rounded-tl-none border border-accent-muted/5 dark:bg-white/5",
+          (videoId || imageUrl) && "w-full"
         )}>
-          {message.content}
+          {/* Format links loosely */}
+          <span className="whitespace-pre-wrap">
+            {message.content.split(/(\s+)/).map((part, i) => 
+              part.match(/^https?:\/\//) ? (
+                <a key={i} href={part} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 opacity-90 hover:opacity-100 transition-opacity">
+                  {part}
+                </a>
+              ) : (
+                part
+              )
+            )}
+          </span>
+
+          {videoId && (
+            <div className="mt-3 relative w-full aspect-video rounded-xl overflow-hidden bg-black/20 shadow-lg border border-white/10">
+              <iframe
+                title={`YouTube thumbnail ${videoId}`}
+                src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full"
+              />
+            </div>
+          )}
+
+          {imageUrl && (
+            <div className="mt-3 relative w-full rounded-xl overflow-hidden shadow-lg border border-accent-muted/10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageUrl}
+                alt="Chat attachment"
+                className="w-full h-auto max-h-[300px] object-cover rounded-xl"
+                loading="lazy"
+              />
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { neon } from '@neondatabase/serverless';
+import { auth, currentUser } from '@clerk/nextjs/server';
 
 // Initialize the Neon database connection
 const sql = neon(process.env.DATABASE_URL!);
@@ -43,17 +44,37 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    
-    // Validate required fields
-    if (!body.userId || !body.content || !body.userName) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    // 1. SERVER-SIDE AUTHENTICATION (Never trust client identity payload)
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized: No valid session found' }, { status: 401 });
     }
 
-    // Insert the new message and return the record
+    // 2. FETCH VERIFIED USER DATA FROM CLERK
+    const user = await currentUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized: User lookup failed' }, { status: 401 });
+    }
+
+    const verifiedUserName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Anonymous';
+    const verifiedUserImage = user.imageUrl || '';
+
+    // 3. PARSE & VALIDATE PAYLOAD
+    const body = await req.json();
+    const content = body?.content?.trim();
+    
+    if (!content) {
+      return NextResponse.json({ error: 'Missing content field' }, { status: 400 });
+    }
+
+    if (content.length > 1500) {
+      return NextResponse.json({ error: 'Content exceeds maximum allowed length of 1500 characters' }, { status: 400 });
+    }
+
+    // 4. INSERT VERIFIED DATA INTO DATABASE
     const result = await sql`
       INSERT INTO messages (user_id, user_name, user_image, content)
-      VALUES (${body.userId}, ${body.userName}, ${body.userImage || ''}, ${body.content})
+      VALUES (${userId}, ${verifiedUserName}, ${verifiedUserImage}, ${content})
       RETURNING 
         id, 
         user_id as "userId", 
