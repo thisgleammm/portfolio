@@ -12,7 +12,7 @@ export interface Message {
   isMe: boolean;
 }
 
-export function useLiveChat(currentUserId?: string) {
+export function useLiveChat(currentUserId?: string, enablePolling: boolean = false) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isConnected, setIsConnected] = useState(false);
 
@@ -44,11 +44,14 @@ export function useLiveChat(currentUserId?: string) {
   }, [mapMessage]);
 
   useEffect(() => {
-    fetchMessages();
-    // Short polling: every 3 seconds fetch the latest chat history
-    const interval = setInterval(fetchMessages, 3000);
+    fetchMessages(); // Fetch immediately on mount or opening
+
+    if (!enablePolling) return; // Disable background polling if widget is closed
+
+    // Polling only every 10 seconds (optimized) when active
+    const interval = setInterval(fetchMessages, 10000);
     return () => clearInterval(interval);
-  }, [fetchMessages]);
+  }, [fetchMessages, enablePolling]);
 
   const sendMessage = useCallback(async (content: string, user: { id: string; name: string; image: string }) => {
     // Send to the API

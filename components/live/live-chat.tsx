@@ -15,10 +15,10 @@ import { cn } from "@/lib/utils";
 
 export function LiveChatWidget() {
   const { user, isSignedIn } = useUser();
-  const { messages, sendMessage, isConnected } = useLiveChat(user?.id);
+  const [isOpen, setIsOpen] = useState(false);
+  const { messages, sendMessage, isConnected } = useLiveChat(user?.id, isOpen);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
 
   // Auto-scroll to bottom
   const scrollToBottom = () => {
