@@ -75,6 +75,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased selection:bg-primary/20 selection:text-primary`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preconnect" href="https://clerk.gleam.web.id" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://clerk.gleam.web.id" />
+        <link rel="preconnect" href="https://avatars.githubusercontent.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://avatars.githubusercontent.com" />
+      </head>
       <body className="relative min-h-full flex flex-col">
         <ScrollProgress />
         <script
