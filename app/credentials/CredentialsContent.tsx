@@ -57,6 +57,12 @@ const EVENTS = [
 ];
 
 export default function CredentialsContent() {
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <main className="min-h-screen w-full flex flex-col bg-background text-foreground selection:bg-primary/20 selection:text-primary overflow-x-hidden">
       <Navbar />
@@ -72,10 +78,22 @@ export default function CredentialsContent() {
             Back to About
           </Link>
           
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase leading-none">
-            Registry / <br />
-            <span className="text-primary italic">Credentials</span>
-          </h1>
+          {!mounted ? (
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase leading-none">
+              Registry / <br />
+              <span className="text-primary italic">Credentials</span>
+            </h1>
+          ) : (
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase leading-none"
+            >
+              Registry / <br />
+              <span className="text-primary italic">Credentials</span>
+            </motion.h1>
+          )}
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}

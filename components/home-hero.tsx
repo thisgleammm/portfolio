@@ -14,8 +14,8 @@ const CONTAINER_VARIANTS = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3,
+      staggerChildren: 0.05,
+      delayChildren: 0.1,
     },
   },
 };
@@ -46,6 +46,26 @@ const HeroContent = React.memo(() => {
     setMounted(true);
   }, []);
 
+  // LCP Optimization: Render non-animated content immediately for SSR/Initial Paint
+  if (!mounted) {
+    return (
+      <main className="flex min-h-screen w-full flex-col items-center justify-between px-6 text-center pt-32 pb-4 md:pt-40 md:pb-6 relative overflow-hidden">
+        <div className="space-y-4 md:space-y-6 max-w-4xl flex-1 flex flex-col justify-center">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-black dark:text-white">
+            Hi, I&apos;m Gleam 👋
+          </h2>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-[0.95] md:leading-[0.9] tracking-tighter text-balance">
+            I build things for the web and beyond.
+          </h1>
+          <p className="mt-6 md:mt-8 mx-auto max-w-2xl text-md md:text-xl text-muted-foreground font-medium leading-relaxed">
+            Full-Stack Engineer · Next.js · Laravel · Python
+          </p>
+        </div>
+        <div className="w-full h-24" /> {/* Placeholder for bottom row */}
+      </main>
+    );
+  }
+
   return (
     <motion.main 
       initial="hidden"
@@ -68,7 +88,7 @@ const HeroContent = React.memo(() => {
 
       <motion.div 
         variants={{
-          visible: { transition: { staggerChildren: 0.1, delayChildren: 0.8 } }
+          visible: { transition: { staggerChildren: 0.05, delayChildren: 0.4 } }
         }}
         className="w-full flex flex-col items-center justify-between gap-6 mt-16 md:flex-row"
       >

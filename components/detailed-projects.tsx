@@ -194,7 +194,6 @@ export function DetailedProjects() {
             >
               {/* Image Container with Hover Effect */}
               <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-accent-muted/20 border border-accent-muted/10 mb-8 overflow-clip">
-                <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors duration-500 z-10" />
                 
                 <ProjectImage project={project} index={index} />
                 
