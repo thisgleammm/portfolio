@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLiveChat, Message } from "@/hooks/use-live-chat";
 import { useUser, SignInButton } from "@clerk/nextjs";
-import { Send, Hash, Users, Zap, Ghost, ArrowDown, X, MessageSquareLock } from "lucide-react";
+import { Send, Hash, Users, Ghost, ArrowDown, X, MessageSquareLock } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 

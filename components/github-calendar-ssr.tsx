@@ -1,7 +1,6 @@
 import * as React from "react";
 import { getGitHubContributions } from "@/lib/github";
 import { GitHubContributionView } from "./github-calendar-view";
-import { cn } from "@/lib/utils";
 
 interface Props {
   username: string;

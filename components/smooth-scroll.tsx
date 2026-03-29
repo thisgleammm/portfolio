@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, createContext, useContext, useState, useLayoutEffect } from "react";
+import { useEffect, createContext, useContext, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
@@ -15,6 +15,7 @@ export const useLenis = () => {
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const [lenisRef, setLenisRef] = useState<Lenis | null>(null);
   const pathname = usePathname();
+  const rafId = useRef<number | null>(null);
 
   // Rule: rerender-memo & rendering-activity
   // Initialize Lenis with auto-resize enabled
@@ -32,28 +33,27 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     // Assign instance
     const instance = lenis;
 
-    // Use a reference to check if mounted to avoid setting state on unmounted component
-    const rafIdSet = requestAnimationFrame(() => setLenisRef(instance));
-
     // Physical Scroll Optimization
     document.body.style.overscrollBehavior = "none";
     
     // Animation Loop
-    let rafId: number;
+    let localRafId: number;
     const animate = (time: number) => {
       lenis.raf(time);
-      rafId = requestAnimationFrame(animate);
+      localRafId = requestAnimationFrame(animate);
+      rafId.current = localRafId;
     };
 
     const setRafId = requestAnimationFrame(() => {
       setLenisRef(instance);
-      rafId = requestAnimationFrame(animate);
+      localRafId = requestAnimationFrame(animate);
+      rafId.current = localRafId;
     });
 
     // Cleanup
     return () => {
       lenis.destroy();
-      cancelAnimationFrame(rafId);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
       cancelAnimationFrame(setRafId);
       document.body.style.overscrollBehavior = "";
       setLenisRef(null);

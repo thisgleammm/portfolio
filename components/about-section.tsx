@@ -20,9 +20,9 @@ export function AboutSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-3xl md:text-5xl lg:text-6xl font-bold text-primary leading-tight mb-12 max-w-3xl"
+          className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.9] mb-12 max-w-4xl"
         >
-          Engineering the Future with Passion and Innovation
+          Engineering the <span className="text-primary italic">Future</span> with Passion and Innovation
         </motion.h2>
 
         {/* Divider with Icon */}

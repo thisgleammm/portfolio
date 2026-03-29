@@ -51,11 +51,11 @@ const HeroContent = React.memo(() => {
     return (
       <main className="flex min-h-screen w-full flex-col items-center justify-between px-6 text-center pt-32 pb-4 md:pt-40 md:pb-6 relative overflow-hidden">
         <div className="space-y-4 md:space-y-6 max-w-4xl flex-1 flex flex-col justify-center">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-black dark:text-white">
-            Hi, I&apos;m Gleam 👋
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-tighter text-black dark:text-white">
+            Hi, I&apos;m <span className="text-primary italic">Gleam</span> 👋
           </h2>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-[0.95] md:leading-[0.9] tracking-tighter text-balance">
-            I build things for the web and beyond.
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase text-foreground leading-[0.95] md:leading-[0.9] tracking-tighter text-balance">
+            I build things for the <br className="hidden md:block" /> web and <span className="text-primary italic">beyond</span>.
           </h1>
           <p className="mt-6 md:mt-8 mx-auto max-w-2xl text-md md:text-xl text-muted-foreground font-medium leading-relaxed">
             Full-Stack Engineer · Next.js · Laravel · Python
@@ -75,11 +75,11 @@ const HeroContent = React.memo(() => {
       className="flex min-h-screen w-full flex-col items-center justify-between px-6 text-center pt-32 pb-4 md:pt-40 md:pb-6 relative overflow-hidden"
     >
       <div className="space-y-4 md:space-y-6 max-w-4xl flex-1 flex flex-col justify-center">
-        <motion.h2 variants={ITEM_VARIANTS} className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-black dark:text-white">
-          Hi, I&apos;m Gleam 👋
+        <motion.h2 variants={ITEM_VARIANTS} className="text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-tighter text-black dark:text-white">
+          Hi, I&apos;m <span className="text-primary italic">Gleam</span> 👋
         </motion.h2>
-        <motion.h1 variants={ITEM_VARIANTS} className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-[0.95] md:leading-[0.9] tracking-tighter text-balance">
-          I build things for the <br className="hidden md:block" /> web and beyond.
+        <motion.h1 variants={ITEM_VARIANTS} className="text-5xl md:text-7xl lg:text-8xl font-black uppercase text-foreground leading-[0.95] md:leading-[0.9] tracking-tighter text-balance">
+          I build things for the <br className="hidden md:block" /> web and <span className="text-primary italic">beyond</span>.
         </motion.h1>
         <motion.p variants={ITEM_VARIANTS} className="mt-6 md:mt-8 mx-auto max-w-2xl text-md md:text-xl text-muted-foreground font-medium leading-relaxed">
           Full-Stack Engineer <span className="mx-1.5 opacity-30">·</span> Next.js <span className="mx-1.5 opacity-30">·</span> Laravel <span className="mx-1.5 opacity-30">·</span> Python

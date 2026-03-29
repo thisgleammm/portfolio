@@ -3,7 +3,6 @@
 import * as React from "react";
 import { GitHubCalendar } from "react-github-calendar";
 import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
 
 export const GitHubContributionGraph = React.memo(() => {
   const { theme } = useTheme();
