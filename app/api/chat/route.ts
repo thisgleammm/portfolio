@@ -61,17 +61,41 @@ export async function POST(req: Request) {
 
     // 3. PARSE & VALIDATE PAYLOAD
     const body = await req.json();
-    const content = body?.content?.trim();
+    let content = body?.content?.trim();
     
     if (!content) {
       return NextResponse.json({ error: 'Missing content field' }, { status: 400 });
     }
 
-    if (content.length > 1500) {
-      return NextResponse.json({ error: 'Content exceeds maximum allowed length of 1500 characters' }, { status: 400 });
+    // 4. RATE LIMITING (Prevent spam)
+    // Rule: api-security (Max 10 messages / minute / user)
+    const rateLimitCheck = await sql`
+      SELECT count(*) as count 
+      FROM messages 
+      WHERE user_id = ${userId} 
+      AND created_at > now() - interval '1 minute'
+    `;
+
+    if (parseInt(rateLimitCheck[0].count) >= 10) {
+      return NextResponse.json({ 
+        error: 'Too many messages. Please wait a minute before sending more.' 
+      }, { status: 429 });
     }
 
-    // 4. INSERT VERIFIED DATA INTO DATABASE
+    // 5. XSS SANITIZATION (Basic HTML escaping)
+    // Rule: frontend-security (Protect against script injection)
+    content = content
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+    if (content.length > 1500) {
+      return NextResponse.json({ error: 'Content too long' }, { status: 400 });
+    }
+
+    // 6. INSERT VERIFIED DATA INTO DATABASE
     const result = await sql`
       INSERT INTO messages (user_id, user_name, user_image, content)
       VALUES (${userId}, ${verifiedUserName}, ${verifiedUserImage}, ${content})
