@@ -45,7 +45,7 @@ const PROJECTS: Project[] = [
     year: "2025",
     description: "Led end-to-end development of a mobile app for a repair shop, replacing manual bookkeeping with a real-time system for inventory, sales, and service records. Reduced reconciliation time from 1 hour to under 1 minute.",
     tech: ["Flutter", "Next.js", "Supabase", "PostgreSQL"],
-    image: "/project-workshop.jpg",
+    image: "/project-raffli.jpeg",
     github: "http://github.com/thisgleammm",
     live: null,
   },
