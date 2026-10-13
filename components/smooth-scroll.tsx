@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, createContext, useContext, useState, useRef } from "react";
+import { useEffect, createContext, useContext, useState } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
@@ -15,46 +15,37 @@ export const useLenis = () => {
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const [lenisRef, setLenisRef] = useState<Lenis | null>(null);
   const pathname = usePathname();
-  const rafId = useRef<number | null>(null);
 
   // Rule: rerender-memo & rendering-activity
-  // Initialize Lenis with auto-resize enabled
+  // Initialize Lenis with auto-resize enabled.
+  // Perf: syncTouch disabled (native touch scroll is faster),
+  // lerp raised to reduce floaty lag, autoRaf lets Lenis
+  // drive its own RAF only when needed.
   useEffect(() => {
     const lenis = new Lenis({
-      lerp: 0.1,
+      lerp: 0.15,
       autoResize: true,
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.2,
-      syncTouch: true,
+      touchMultiplier: 1.0,
+      syncTouch: false,
+      autoRaf: true,
     });
     // Assign instance
     const instance = lenis;
 
     // Physical Scroll Optimization
     document.body.style.overscrollBehavior = "none";
-    
-    // Animation Loop
-    let localRafId: number;
-    const animate = (time: number) => {
-      lenis.raf(time);
-      localRafId = requestAnimationFrame(animate);
-      rafId.current = localRafId;
-    };
 
-    const setRafId = requestAnimationFrame(() => {
-      setLenisRef(instance);
-      localRafId = requestAnimationFrame(animate);
-      rafId.current = localRafId;
-    });
+    // Publish instance on next frame (avoids sync setState-in-effect cascade)
+    const raf = requestAnimationFrame(() => setLenisRef(instance));
 
     // Cleanup
     return () => {
+      cancelAnimationFrame(raf);
       lenis.destroy();
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-      cancelAnimationFrame(setRafId);
       document.body.style.overscrollBehavior = "";
       setLenisRef(null);
     };

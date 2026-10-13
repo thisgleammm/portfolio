@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -206,7 +205,9 @@ export default function AboutContent() {
                         <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-primary border-4 border-background" />
                         <p className="text-xs font-mono font-bold text-primary mb-2">January 2026 — Present</p>
                         <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Computer Vision Developer Intern <br /> PT. KAYABA INDONESIA</h3>
-                        <p className="text-muted-foreground md:text-lg leading-relaxed mt-2 max-w-2xl">-</p>
+                        <p className="text-muted-foreground md:text-lg leading-relaxed mt-2 max-w-2xl">• Leakage Tester <br />
+                        • POKETENASHI <br />
+                        • Oil Seal Detection</p>
                      </div>
                      <div className="relative">
                         <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-accent-muted border-4 border-background" />
@@ -230,13 +231,6 @@ export default function AboutContent() {
                         <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight">Web Developer Intern <br /> SMPTIT Nurul Fikri Bekasi</h3>
                         <p className="text-muted-foreground md:text-lg leading-relaxed mt-2 max-w-2xl">-</p>
                      </div>
-                  </div>
-
-                  <div className="pt-10">
-                     <Link href="/credentials" className="inline-flex items-center gap-4 text-xs font-black uppercase tracking-[0.3em] hover:text-primary group transition-colors">
-                        View Full Credentials / Licenses
-                        <div className="w-8 h-px bg-primary scale-x-50 group-hover:scale-x-100 transition-transform origin-left" />
-                     </Link>
                   </div>
                </div>
             </ScrollReveal>

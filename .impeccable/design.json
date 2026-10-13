@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-24T00:00:00.000Z",
+  "title": "Design System: Portfolio - Muhammad Gleam Mulyawan",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "Crimson Accent", "canonical": "oklch(0.45 0.15 27.5)" },
+      "neutral-bg": { "role": "neutral", "displayName": "Off-White Canvas", "canonical": "oklch(0.948 0.0053 106.5)" },
+      "neutral-fg": { "role": "neutral", "displayName": "Deep Slate Ink", "canonical": "oklch(0.22 0.008 106.5)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Geist Sans Display", "purpose": "Hero headlines and main titles." },
+      "body": { "displayName": "Geist Sans Body", "purpose": "Standard prose reading." },
+      "mono": { "displayName": "Geist Mono", "purpose": "Metrics, badges, code blocks." }
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main call to action button with crimson background.",
+      "html": "<button class=\"ds-btn-primary\">View Projects</button>",
+      "css": ".ds-btn-primary { background: #a52b2a; color: #ffffff; padding: 8px 16px; border-radius: 8px; font-weight: 500; font-size: 14px; border: none; cursor: pointer; transition: opacity 0.2s; } .ds-btn-primary:hover { opacity: 0.9; }"
+    },
+    {
+      "name": "Capsule Tag",
+      "kind": "chip",
+      "refersTo": "capsule",
+      "description": "Status and tech stack pill badge.",
+      "html": "<span class=\"ds-capsule\">Next.js 16</span>",
+      "css": ".ds-capsule { border-radius: 9999px; border: 1px solid rgba(165, 43, 42, 0.15); padding: 4px 12px; font-size: 12px; font-family: monospace; color: #30302e; background: transparent; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Engineering Precision Lab",
+    "overview": "A refined, performance-focused personal portfolio interface for a full-stack engineer. Built on a clean neutral foundation with high-contrast typography, strict spatial discipline, and deliberate crimson accent highlights.",
+    "keyCharacteristics": [
+      "High-contrast neutral background",
+      "Crisp typography with Geist Sans and Geist Mono",
+      "Deep crimson accent used exclusively for key focus areas"
+    ],
+    "rules": [
+      { "name": "The Rarity Accent Rule", "body": "The primary crimson accent must appear on ≤10% of any visible screen area.", "section": "colors" },
+      { "name": "The Border Over Shadow Rule", "body": "Depth is established through subtle 1px structural borders and color tinting rather than heavy ambient box-shadows.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do maintain a strict 65–75ch line length limit on long prose blocks.",
+      "Do use Geist Mono for technical metrics and code references."
+    ],
+    "donts": [
+      "Don't use heavy wide drop shadows combined with borders.",
+      "Don't use decorative text gradients."
+    ]
+  }
+}

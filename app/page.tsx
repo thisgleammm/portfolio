@@ -30,9 +30,9 @@ export default async function Page() {
       <Footer />
 
       {/* Static Background Decor */}
-      <div className="fixed inset-0 pointer-events-none -z-10 bg-background transition-colors duration-500">
-        <div className="absolute top-0 right-0 w-[40vw] h-[40vw] bg-primary/5 blur-[80px] rounded-full animate-pulse-slow will-change-transform" />
-        <div className="absolute bottom-0 left-0 w-[30vw] h-[30vw] bg-primary/5 blur-[60px] rounded-full animate-pulse-slow delay-700 will-change-transform" />
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-background transition-colors duration-500 overflow-hidden">
+        <div className="hidden sm:block absolute top-0 right-0 w-[40vw] h-[40vw] bg-primary/5 blur-[80px] rounded-full will-change-transform" />
+        <div className="hidden sm:block absolute bottom-0 left-0 w-[30vw] h-[30vw] bg-primary/5 blur-[60px] rounded-full will-change-transform" />
       </div>
     </div>
   );

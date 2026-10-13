@@ -23,54 +23,70 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
+    title: "Oil Seal Detection",
+    year: "2026",
+    description:
+      "Advanced safety monitoring system using YOLO and TensorFlow to detect PPE compliance and hazardous conditions in real-time industrial environments.",
+    tech: ["YOLOv11n", "MySQL", "ResNet 18 ONNX", "Laravel", "Tailwind CSS"],
+    image: "/project-poketenashi.jpg",
+    github: "",
+    live: null,
+  },
+  {
     title: "POKETENASHI Safety Detection",
     year: "2026",
-    description: "Advanced safety monitoring system using YOLO and TensorFlow to detect PPE compliance and hazardous conditions in real-time industrial environments.",
+    description:
+      "Advanced safety monitoring system using YOLO and TensorFlow to detect PPE compliance and hazardous conditions in real-time industrial environments.",
     tech: ["Python", "TensorFlow", "YOLO"],
     image: "/project-poketenashi.jpg",
-    github: "http://github.com/thisgleammm",
+    github: "",
     live: null,
   },
   {
     title: "Leakage Tester",
     year: "2026",
-    description: "IoT-based leakage detection system utilizing Raspberry Pi and Computer Vision to monitor industrial pipelines and automated reporting.",
+    description:
+      "IoT-based leakage detection system utilizing Raspberry Pi and Computer Vision to monitor industrial pipelines and automated reporting.",
     tech: ["Python", "Raspberry Pi", "Open CV"],
     image: "/project-leakage.jpg",
-    github: "http://github.com/thisgleammm",
+    github: "",
     live: null,
   },
   {
     title: "Motorcycle Workshop Management | Raffli Motor",
     year: "2025",
-    description: "Led end-to-end development of a mobile app for a repair shop, replacing manual bookkeeping with a real-time system for inventory, sales, and service records. Reduced reconciliation time from 1 hour to under 1 minute.",
+    description:
+      "Led end-to-end development of a mobile app for a repair shop, replacing manual bookkeeping with a real-time system for inventory, sales, and service records. Reduced reconciliation time from 1 hour to under 1 minute.",
     tech: ["Flutter", "Next.js", "Supabase", "PostgreSQL"],
     image: "/project-raffli.jpeg",
-    github: "http://github.com/thisgleammm",
+    github: "https://github.com/thisgleammm/rafflimotor",
     live: null,
   },
   {
     title: "Warehouse System | Reisen Gear",
     year: "2025",
-    description: "Digital inventory and warehouse management system optimized for rapid stock processing and automated reporting.",
+    description:
+      "Digital inventory and warehouse management system optimized for rapid stock processing and automated reporting.",
     tech: ["PHP", "MariaDB", "Bootstrap"],
     image: "/project-warehouse.jpg",
-    github: "http://github.com/thisgleammm",
+    github: "",
     live: null,
   },
   {
     title: "Digital Invoice System | Lombok NTB Pearls",
     year: "2025",
-    description: "Custom digital invoicing and payment tracking platform tailored for the retail jewelry industry in Lombok.",
+    description:
+      "Custom digital invoicing and payment tracking platform tailored for the retail jewelry industry in Lombok.",
     tech: ["PHP", "MariaDB", "Bootstrap"],
     image: "/project-invoice.jpg",
-    github: "http://github.com/thisgleammm",
+    github: "",
     live: null,
   },
   {
     title: "SEACATERING",
     year: "2025",
-    description: "Modern meal delivery platform featuring NextAuth subscription management, admin dashboard, and responsive UI components with CSRF protection.",
+    description:
+      "Modern meal delivery platform featuring NextAuth subscription management, admin dashboard, and responsive UI components with CSRF protection.",
     tech: ["Next.js", "NextAuth", "Prisma", "PostgreSQL"],
     image: "/project-sea.png",
     github: "https://github.com/thisgleammm/seacatering",
@@ -79,7 +95,8 @@ const PROJECTS: Project[] = [
   {
     title: "SIMPEL | STMI Interactive Management Platform",
     year: "2024",
-    description: "Interactive e-learning management platform built with Laravel and Alpine.js, enhancing the learning experience with streamlined administration.",
+    description:
+      "Interactive e-learning management platform built with Laravel and Alpine.js, enhancing the learning experience with streamlined administration.",
     tech: ["Laravel", "Tailwind CSS", "MySQL", "Alpine.js"],
     image: "/project-simpel.png",
     github: "https://github.com/thisgleammm/stmi-lms",
@@ -88,7 +105,8 @@ const PROJECTS: Project[] = [
   {
     title: "Beezleboy Discord Bot",
     year: "2022",
-    description: "Discord bot designed to forward Tweets to message channels in Discord servers automatically, built with Node.js.",
+    description:
+      "Discord bot designed to forward Tweets to message channels in Discord servers automatically, built with Node.js.",
     tech: ["Javascript", "Node.js", "Twitter API"],
     image: "/project-beezleboy.jpg",
     github: "https://github.com/thisgleam/BeezleboyBot",
@@ -97,12 +115,13 @@ const PROJECTS: Project[] = [
   {
     title: "Discord Music Bot",
     year: "2021",
-    description: "High-performance bot designed to play music from YouTube, Spotify, and SoundCloud in Discord voice channels.",
+    description:
+      "High-performance bot designed to play music from YouTube, Spotify, and SoundCloud in Discord voice channels.",
     tech: ["Javascript", "Node.js", "Discord.js"],
     image: "/project-musicbot.png",
     github: "https://github.com/thisgleam/thisgleam-botmusic",
     live: null,
-  }
+  },
 ];
 
 const ProjectImage = ({ project, index }: { project: Project; index: number }) => {
@@ -222,14 +241,16 @@ export function DetailedProjects() {
                 </div>
 
                 <div className="mt-auto flex flex-wrap items-center gap-4 pt-6 border-t border-accent-muted/10">
-                  <a 
-                    href={project.github} 
-                    target="_blank" 
-                    className="px-6 py-2.5 border border-accent-muted/20 hover:bg-accent-muted rounded-full text-xs font-black uppercase tracking-widest transition-all active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-primary inline-flex items-center gap-2"
-                  >
-                    Source Code
-                    <GitHubIcon className="w-3.5 h-3.5" />
-                  </a>
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      className="px-6 py-2.5 border border-accent-muted/20 hover:bg-accent-muted rounded-full text-xs font-black uppercase tracking-widest transition-all active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-primary inline-flex items-center gap-2"
+                    >
+                      Source Code
+                      <GitHubIcon className="w-3.5 h-3.5" />
+                    </a>
+                  )}
                   
                   {project.live && (
                     <a 

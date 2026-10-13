@@ -44,13 +44,19 @@ export function useLiveChat(currentUserId?: string, enablePolling: boolean = fal
   }, [mapMessage]);
 
   useEffect(() => {
-    fetchMessages(); // Fetch immediately on mount or opening
+    // Defer initial fetch out of the synchronous effect body.
+    const raf = requestAnimationFrame(() => {
+      void fetchMessages();
+    });
 
-    if (!enablePolling) return; // Disable background polling if widget is closed
+    if (!enablePolling) return () => cancelAnimationFrame(raf); // Disable background polling if widget is closed
 
     // Polling only every 10 seconds (optimized) when active
     const interval = setInterval(fetchMessages, 10000);
-    return () => clearInterval(interval);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearInterval(interval);
+    };
   }, [fetchMessages, enablePolling]);
 
   const sendMessage = useCallback(async (content: string, user: { id: string; name: string; image: string }) => {

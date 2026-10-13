@@ -50,10 +50,10 @@ export function Footer() {
           <span className="text-xs md:text-sm font-bold tracking-[0.2em] text-foreground/50 uppercase mb-4">
             Have a project in mind?
           </span>
-          <Link href="/contact" className="group inline-block w-fit">
-            <h2 className="text-[12vw] md:text-[10vw] font-black leading-[0.8] tracking-tighter text-foreground/5 dark:text-white/5 group-hover:text-primary dark:group-hover:text-primary transition-colors duration-500 uppercase flex items-baseline gap-4 md:gap-8">
-              Let&apos;s Talk
-              <ArrowUpRight className="w-[8vw] h-[8vw] opacity-0 -translate-x-4 translate-y-4 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 text-primary" />
+          <Link href="/contact" className="group inline-block w-full">
+            <h2 className="text-6xl sm:text-7xl md:text-[10vw] font-black leading-none tracking-tighter text-muted-foreground/40 group-hover:text-primary dark:group-hover:text-primary transition-colors duration-500 uppercase flex items-center justify-between sm:justify-start gap-2 md:gap-8">
+              <span>Let&apos;s Talk</span>
+              <ArrowUpRight className="w-10 h-10 sm:w-[8vw] sm:h-[8vw] opacity-100 sm:opacity-0 sm:-translate-x-4 sm:translate-y-4 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 text-primary shrink-0" />
             </h2>
           </Link>
         </div>

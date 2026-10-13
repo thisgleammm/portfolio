@@ -14,45 +14,15 @@ interface MinimalProject {
 
 const PROJECTS: MinimalProject[] = [
   {
-    title: "Discord Music Bot",
-    year: "2021",
-    tech: ["Javascript", "Discord.js"],
-    href: "https://github.com/thisgleam/thisgleam-botmusic",
-  },
-  {
-    title: "Beezleboy Discord Bot",
-    year: "2022",
-    tech: ["Javascript", "Discord.js"],
-    href: "https://github.com/thisgleam/BeezleboyBot",
-  },
-  {
-    title: "SIMPEL | STMI Interactive Management Platform for E-Learning",
-    year: "2024",
-    tech: ["Laravel", "Tailwind CSS", "MySQL", "Alpine JS"],
-    href: "https://github.com/thisgleammm/stmi-lms",
-  },
-  {
-    title: "SEACATERING",
-    year: "2025",
-    tech: ["Next.js", "Tailwind CSS", "PostgreSQL"],
-    href: "https://github.com/thisgleammm/seacatering",
-  },
-  {
-    title: "Digital Invoice System | Lombok NTB Pearls",
-    year: "2025",
-    tech: ["PHP", "MariaDB", "Bootstrap"],
+    title: "Oil Seal Detection",
+    year: "2026",
+    tech: ["Python", "YOLOv11n", "MySQL", "ResNet18 ONNX", "Laravel", "Tailwind CSS"],
     href: "",
   },
   {
-    title: "Warehouse System | Reisen Gear",
-    year: "2025",
-    tech: ["PHP", "MariaDB", "Bootstrap"],
-    href: "",
-  },
-  {
-    title: "Motorcycle Workshop Management Application | Raffli Motor",
-    year: "2025",
-    tech: ["Flutter", "PostgreSQL", "Supabase", "Dart", "Next.js"],
+    title: "POKETENASHI Safety Detection",
+    year: "2026",
+    tech: ["Python", "TensorFlow", "MySQL", "YOLO"],
     href: "",
   },
   {
@@ -62,10 +32,46 @@ const PROJECTS: MinimalProject[] = [
     href: "",
   },
   {
-    title: "POKETENASHI Safety Detection",
-    year: "2026",
-    tech: ["Python", "TensorFlow", "MySQL", "YOLO"],
+    title: "Motorcycle Workshop Management Application | Raffli Motor",
+    year: "2025",
+    tech: ["Flutter", "PostgreSQL", "Supabase", "Dart", "Next.js"],
+    href: "https://github.com/thisgleammm/rafflimotor",
+  },
+  {
+    title: "Warehouse System | Reisen Gear",
+    year: "2025",
+    tech: ["PHP", "MariaDB", "Bootstrap"],
     href: "",
+  },
+  {
+    title: "Digital Invoice System | Lombok NTB Pearls",
+    year: "2025",
+    tech: ["PHP", "MariaDB", "Bootstrap"],
+    href: "",
+  },
+  {
+    title: "SEACATERING",
+    year: "2025",
+    tech: ["Next.js", "Tailwind CSS", "PostgreSQL"],
+    href: "https://github.com/thisgleammm/seacatering",
+  },
+  {
+    title: "SIMPEL | STMI Interactive Management Platform for E-Learning",
+    year: "2024",
+    tech: ["Laravel", "Tailwind CSS", "MySQL", "Alpine JS"],
+    href: "https://github.com/thisgleammm/stmi-lms",
+  },
+  {
+    title: "Beezleboy Discord Bot",
+    year: "2022",
+    tech: ["Javascript", "Discord.js"],
+    href: "https://github.com/thisgleam/BeezleboyBot",
+  },
+  {
+    title: "Discord Music Bot",
+    year: "2021",
+    tech: ["Javascript", "Discord.js"],
+    href: "https://github.com/thisgleam/thisgleam-botmusic",
   },
 ];
 
@@ -76,7 +82,7 @@ export function FeaturedProjects() {
     offset: ["start end", "end start"],
   });
 
-  const scrollLineHeight = useTransform(scrollYProgress, [0.1, 0.9], ["0%", "100%"]);
+  const scrollLineScale = useTransform(scrollYProgress, [0.1, 0.9], [0, 1]);
   const scrollLineOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
 
   return (
@@ -98,11 +104,8 @@ export function FeaturedProjects() {
             >
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/60 block">Selected Works</span>
               <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic text-primary">
-                Project <br /> <span className="text-foreground not-italic">Briefs</span>
+                Recent <br /> <span className="text-foreground not-italic">work</span>
               </h2>
-              <p className="text-sm text-muted-foreground max-w-xs font-medium leading-relaxed">
-                A showcase of system architecture, enterprise solutions, and creative engineering across various industries.
-              </p>
             </motion.div>
 
             <Link 
@@ -123,8 +126,8 @@ export function FeaturedProjects() {
             {/* Scroll Progress Line */}
             <div className="absolute -left-12 top-0 bottom-0 w-px bg-accent-muted/10 hidden lg:block">
               <motion.div 
-                style={{ height: scrollLineHeight, opacity: scrollLineOpacity }}
-                className="w-px bg-primary origin-top"
+                style={{ scaleY: scrollLineScale, opacity: scrollLineOpacity }}
+                className="w-px h-full bg-primary origin-top will-change-transform"
               />
             </div>
 
@@ -141,19 +144,15 @@ export function FeaturedProjects() {
 }
 
 function ProjectItem({ project, index }: { project: MinimalProject; index: number }) {
-  const itemRef = React.useRef(null);
-  
   return (
     <motion.a
-      ref={itemRef}
       href={project.href}
       target="_blank"
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
-      style={{ willChange: "transform, opacity", backfaceVisibility: "hidden", transformStyle: "preserve-3d" }}
-      className="group flex flex-col md:flex-row md:items-center justify-between py-10 border-b border-accent-muted/20 hover:bg-accent-muted/5 transition-[background-color,border-color,padding,margin,border-radius] duration-300 px-4 -mx-4 rounded-2xl relative overflow-hidden opacity-0 transform-gpu"
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="group flex flex-col md:flex-row md:items-center justify-between py-10 border-b border-accent-muted/20 hover:bg-accent-muted/5 transition-colors duration-300 px-4 -mx-4 rounded-2xl relative overflow-hidden opacity-0"
     >
       <div className="relative z-10 flex flex-col gap-2 pointer-events-none">
         <div className="flex items-center gap-3">
@@ -164,7 +163,7 @@ function ProjectItem({ project, index }: { project: MinimalProject; index: numbe
             {project.year}
           </span>
         </div>
-        <h3 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground transition-all group-hover:translate-x-2 leading-none uppercase italic group-hover:text-primary">
+        <h3 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground transition-[transform,color] duration-300 group-hover:translate-x-2 leading-none uppercase italic group-hover:text-primary">
           {project.title}
         </h3>
       </div>
@@ -172,23 +171,22 @@ function ProjectItem({ project, index }: { project: MinimalProject; index: numbe
       <div className="relative z-10 mt-6 md:mt-0 flex items-center gap-6 pointer-events-none">
         <div className="flex flex-wrap gap-2">
           {project.tech.map(t => (
-            <span 
-              key={t} 
-              className="px-3 py-1 glass text-[9px] font-black uppercase tracking-tighter opacity-40 group-hover:opacity-100 transition-opacity border border-accent-muted/10 rounded-full"
+            <span
+              key={t}
+              className="px-3 py-1 bg-muted/40 text-[9px] font-black uppercase tracking-tighter opacity-40 group-hover:opacity-100 transition-opacity border border-accent-muted/10 rounded-full"
             >
               {t}
             </span>
           ))}
         </div>
-        <div className="hidden md:flex w-12 h-12 rounded-full border border-accent-muted/10 items-center justify-center opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-500">
+        <div className="hidden md:flex w-12 h-12 rounded-full border border-accent-muted/10 items-center justify-center opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-[opacity,transform] duration-300">
           <ArrowUpRight className="w-5 h-5 text-primary" />
         </div>
       </div>
 
       {/* Background Hover Effect */}
-      <motion.div 
+      <div
         className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        initial={false}
       />
     </motion.a>
   );

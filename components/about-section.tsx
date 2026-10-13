@@ -1,88 +1,82 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
+
+const META = [
+  { label: "Location", value: "Indonesia" },
+  { label: "Now", value: "Intern, PT. Kayaba Indonesia" },
+  { label: "Focus", value: "Backend, web, ML integration" },
+];
 
 export function AboutSection() {
   return (
-    <motion.section 
-      id="about" 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="w-full px-6 pt-8 pb-10 md:pt-12 md:pb-16 bg-background relative z-10 transition-colors duration-500"
+    <section
+      id="about"
+      className="w-full py-24 md:py-32 px-6 bg-background relative"
     >
-      <div className="max-w-5xl mx-auto">
-        <motion.h2 
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.9] mb-12 max-w-4xl"
-        >
-          Engineering the <span className="text-primary italic">Future</span> with Passion and Innovation
-        </motion.h2>
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-12 lg:gap-24">
 
-        {/* Divider with Icon */}
-        <div className="relative w-full border-t border-black dark:border-white/20 my-16">
-          <motion.div 
-            initial={{ scale: 0, rotate: -45 }}
-            whileInView={{ scale: 1, rotate: 0 }}
+        {/* Sticky Header Column */}
+        <div className="lg:sticky lg:top-32 h-fit space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ type: "spring", stiffness: 100, delay: 0.4 }}
-            className="absolute -top-8 right-10 md:right-20 glass h-16 w-16 rounded-full flex items-center justify-center border border-accent-muted shadow-xl bg-background"
+            transition={{ duration: 0.6 }}
+            className="space-y-4"
           >
-            <svg className="w-7 h-7 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/60 block">About</span>
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9]">
+              Software that <span className="text-primary">has to work</span>
+            </h2>
           </motion.div>
+
+          <motion.dl
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="border-t border-accent-muted/20"
+          >
+            {META.map((item) => (
+              <div
+                key={item.label}
+                className="flex items-baseline justify-between gap-6 py-3 border-b border-accent-muted/20"
+              >
+                <dt className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-muted-foreground/60 shrink-0">
+                  {item.label}
+                </dt>
+                <dd className="text-xs md:text-sm font-semibold text-foreground text-right">
+                  {item.value}
+                </dd>
+              </div>
+            ))}
+          </motion.dl>
         </div>
 
-        {/* Content Block */}
-        <motion.div 
+        {/* Content Column */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-12 gap-8"
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="text-lg md:text-xl leading-relaxed text-muted-foreground font-medium lg:pt-24"
         >
-          <div className="md:col-span-10 text-lg md:text-xl leading-relaxed text-muted-foreground font-medium">
-            <p className="mb-6">
-              I&apos;m a software engineer based in <span className="text-foreground font-bold italic">Indonesia</span>, 
-              currently interning at <span className="text-foreground font-bold">PT. Kayaba Indonesia</span> while pursuing my degree.
-            </p>
-            <p className="mb-6">
-              Over the past year, I&apos;ve worked on production-grade systems, from computer vision pipelines 
-              for workplace safety detection to full-stack web applications.
-            </p>
-            <p>
-              I specialize in backend and web development, with hands-on experience in ML integration, 
-              building systems that are functional, efficient, and grounded in real-world constraints.
-            </p>
-          </div>
+          <p className="mb-6">
+            I&apos;m a software engineer based in <span className="text-foreground font-semibold">Indonesia</span>,
+            currently interning at <span className="text-foreground font-semibold">PT. Kayaba Indonesia</span> while pursuing my degree.
+          </p>
+          <p className="mb-6">
+            Over the past year, I&apos;ve worked on systems running in production, from computer vision pipelines
+            for workplace safety detection to full-stack web applications.
+          </p>
+          <p>
+            I mostly do backend and web development, with ML integration where the job calls for it.
+          </p>
         </motion.div>
 
-        {/* About Me Button (Bottom Right) */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.6 }}
-          className="flex justify-end mt-12"
-        >
-          <Link 
-            href="/about" 
-            className="glass capsule flex items-center gap-2 text-sm font-bold px-6 py-2.5 hover:bg-accent-muted transition-all active:scale-95 group"
-          >
-            About Me
-            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 }

@@ -3,13 +3,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-
 interface ContributionDay {
   date: string;
   count: number;
@@ -26,7 +19,7 @@ const formatContributionDate = (dateStr: string) => {
   const date = new Date(dateStr);
   const day = date.getDate();
   const month = date.toLocaleDateString("en-US", { month: "long" });
-  
+
   // Add ordinal suffix (st, nd, rd, th)
   const suffix = (day: number) => {
     if (day > 3 && day < 21) return 'th';
@@ -67,46 +60,81 @@ export function GitHubContributionSkeleton() {
     );
 }
 
-export function GitHubContributionView({ displayWeeks }: ContributionsViewProps) {
+// Memoized week column: skips re-render when the shared tooltip state changes.
+const WeekColumn = React.memo(function WeekColumn({ week, offset }: { week: ContributionDay[]; offset: number }) {
   return (
-    <TooltipProvider delayDuration={0}>
-      <div className="overflow-x-auto scrollbar-hide -mx-6 px-6">
-        <div className="min-w-[760px] md:min-w-0">
-          <svg
-            viewBox={`0 0 ${displayWeeks.length * 16} ${7 * 16}`}
-            className="w-full h-auto"
-            shapeRendering="crispEdges"
-          >
-            {displayWeeks.map((week, weekIdx) => (
-              <g key={weekIdx} transform={`translate(${weekIdx * 16}, 0)`}>
-                {week.map((day, dayIdx) => (
-                  <Tooltip key={dayIdx}>
-                    <TooltipTrigger asChild>
-                      <rect
-                        x={0}
-                        y={dayIdx * 16}
-                        width={12}
-                        height={12}
-                        rx={3}
-                        ry={3}
-                        className={cn("outline-none", getLevelClass(day.level))}
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent 
-                        side="top" 
-                        className="bg-zinc-800 text-white border-none px-3 py-1.5 rounded-lg shadow-xl pointer-events-none"
-                    >
-                      <p className="font-bold text-[10px] md:text-sm">
-                        {`${day.count === 0 ? "No" : day.count} contributions on ${formatContributionDate(day.date)}`}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                ))}
-              </g>
-            ))}
-          </svg>
-        </div>
-      </div>
-    </TooltipProvider>
+    <g transform={`translate(${offset}, 0)`}>
+      {week.map((day, dayIdx) => (
+        <rect
+          key={`${day.date}-${dayIdx}`}
+          x={0}
+          y={dayIdx * 16}
+          width={12}
+          height={12}
+          rx={3}
+          ry={3}
+          data-date={day.date}
+          data-count={day.count}
+          className={cn("outline-none", getLevelClass(day.level))}
+        >
+          <title>{`${day.count === 0 ? "No" : day.count} contributions on ${formatContributionDate(day.date)}`}</title>
+        </rect>
+      ))}
+    </g>
   );
-}
+});
+
+export const GitHubContributionView = React.memo(function GitHubContributionView({ displayWeeks }: ContributionsViewProps) {
+  const [tip, setTip] = React.useState<{ x: number; y: number; text: string } | null>(null);
+  const wrapRef = React.useRef<HTMLDivElement>(null);
+
+  // Single delegated listener instead of ~370 per-cell tooltip instances.
+  const onMove = (e: React.MouseEvent) => {
+    const t = e.target as SVGRectElement;
+    if (t.tagName !== "rect" || !t.dataset.date) {
+      setTip((prev) => (prev ? null : prev));
+      return;
+    }
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    const box = wrap.getBoundingClientRect();
+    const count = Number(t.dataset.count);
+    const x = Math.min(
+      Math.max(e.clientX - box.left + wrap.scrollLeft, 80),
+      wrap.scrollWidth - 80
+    );
+    setTip({
+      x,
+      y: e.clientY - box.top,
+      text: `${count === 0 ? "No" : count} contributions on ${formatContributionDate(t.dataset.date)}`,
+    });
+  };
+
+  return (
+    <div
+      ref={wrapRef}
+      onMouseMove={onMove}
+      onMouseLeave={() => setTip(null)}
+      className="relative overflow-x-auto scrollbar-hide -mx-6 px-6"
+    >
+      <div className="min-w-[760px] md:min-w-0">
+        <svg
+          viewBox={`0 0 ${displayWeeks.length * 16} ${7 * 16}`}
+          className="w-full h-auto"
+        >
+          {displayWeeks.map((week, weekIdx) => (
+            <WeekColumn key={weekIdx} week={week} offset={weekIdx * 16} />
+          ))}
+        </svg>
+      </div>
+      {tip && (
+        <div
+          className="absolute z-10 -translate-x-1/2 -translate-y-full bg-zinc-800 text-white border-none px-3 py-1.5 rounded-lg shadow-xl pointer-events-none whitespace-nowrap"
+          style={{ left: tip.x, top: tip.y - 10 }}
+        >
+          <p className="font-bold text-[10px] md:text-sm">{tip.text}</p>
+        </div>
+      )}
+    </div>
+  );
+});

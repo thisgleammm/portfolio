@@ -97,7 +97,7 @@ export function LiveChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="fixed top-[88px] right-4 md:right-6 w-[380px] md:w-[440px] max-w-[calc(100vw-32px)] h-[580px] md:h-[650px] max-h-[calc(100vh-120px)] flex flex-col pointer-events-auto border border-accent-muted/10 dark:border-white/5 bg-background/80 backdrop-blur-3xl rounded-3xl overflow-hidden shadow-2xl z-[100]"
+            className="fixed top-[88px] right-4 md:right-6 w-[380px] md:w-[440px] max-w-[calc(100vw-32px)] h-[580px] md:h-[650px] max-h-[calc(100vh-120px)] flex flex-col pointer-events-auto border border-border bg-background rounded-3xl overflow-hidden shadow-2xl z-[100]"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-accent-muted/10 dark:border-white/5 bg-background/50">

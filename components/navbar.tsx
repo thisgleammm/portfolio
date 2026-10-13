@@ -2,18 +2,18 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, X, Home as HomeIcon, LayoutGrid, User as UserIcon, Mail, SquareTerminal } from "lucide-react";
+import { Menu, X, Home as HomeIcon, LayoutGrid, User as UserIcon, Mail } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { usePathname } from "next/navigation";
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
 import { LiveChatWidget } from "@/components/live/live-chat";
+import { CommandPalette } from "@/components/command-palette";
 
 const NAV_LINKS = [
   { name: "Home", href: "/", icon: <HomeIcon className="w-4 h-4" /> },
   { name: "My Projects", href: "/projects", icon: <LayoutGrid className="w-4 h-4" /> },
   { name: "About Me", href: "/about", icon: <UserIcon className="w-4 h-4" /> },
-  { name: "Credentials", href: "/credentials", icon: <SquareTerminal className="w-4 h-4" /> },
 ];
 
 const NAV_VARIANTS = {
@@ -35,16 +35,16 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-          animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
-          exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-          className="fixed inset-0 z-40 bg-background/80 md:hidden flex flex-col items-center justify-center p-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-40 bg-background 2xl:hidden flex flex-col items-center justify-center p-6"
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            className="flex flex-col gap-8 w-full max-w-xs"
+            className="flex flex-col gap-6 w-full max-w-xs"
           >
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
@@ -56,7 +56,7 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
                   className={`flex items-center gap-4 text-2xl font-bold transition-colors focus-visible:text-primary outline-none ${isActive ? "text-primary" : "text-foreground hover:text-primary"
                     }`}
                 >
-                  <div className={`scale-150 ${isActive ? "text-primary" : ""}`}>{link.icon}</div>
+                  <div className={`scale-125 ${isActive ? "text-primary" : ""}`}>{link.icon}</div>
                   {link.name}
                 </Link>
               );
@@ -67,7 +67,7 @@ const MobileMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
               className={`flex items-center gap-4 text-2xl font-bold transition-colors focus-visible:text-primary outline-none ${pathname === "/contact" ? "text-primary" : "text-foreground hover:text-primary"
                 }`}
             >
-              <Mail className={`w-8 h-8 ${pathname === "/contact" ? "text-primary" : ""}`} />
+              <Mail className={`w-6 h-6 ${pathname === "/contact" ? "text-primary" : ""}`} />
               Contact Me
             </Link>
           </motion.div>
@@ -92,18 +92,18 @@ export function Navbar() {
         variants={{
           visible: { transition: { staggerChildren: 0.05 } }
         }}
-        className="fixed top-0 flex w-full items-center justify-between p-4 md:p-6 z-50 bg-background/90 backdrop-blur-sm border-b border-border/40"
+        className="fixed top-0 flex w-full items-center justify-between p-4 md:p-6 z-50 bg-background border-b border-border/40"
       >
         <div className="flex-1 flex justify-start">
           <motion.div variants={NAV_VARIANTS}>
             <Link href="/" className="glass capsule flex items-center gap-3 hover:bg-accent-muted transition-colors active:scale-95 group focus-visible:ring-2 focus-visible:ring-primary outline-none">
-              <div className="h-3 w-3 md:h-4 md:w-4 rounded-full bg-primary group-hover:scale-110 transition-transform" />
               <span className="font-semibold tracking-tight text-sm md:text-base">thisgleam</span>
             </Link>
           </motion.div>
         </div>
-        <div className="absolute left-1/2 -translate-x-1/2 hidden md:block">
-          <motion.div variants={NAV_VARIANTS} className="glass capsule hidden md:flex items-center gap-6">
+
+        <div className="absolute left-1/2 -translate-x-1/2 hidden 2xl:block">
+          <motion.div variants={NAV_VARIANTS} className="glass capsule flex items-center gap-6">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -120,12 +120,14 @@ export function Navbar() {
             })}
           </motion.div>
         </div>
+
         <div className="flex-1 flex justify-end items-center gap-2 md:gap-3">
           <motion.div variants={NAV_VARIANTS} className="flex items-center gap-2 md:gap-3">
+            <CommandPalette />
             <ThemeToggle />
             <Link
               href="/contact"
-              className={`glass capsule hidden sm:flex items-center gap-2 text-sm font-medium transition-all active:scale-95 focus-visible:ring-2 focus-visible:ring-primary outline-none ${pathname === "/contact" ? "bg-accent-muted text-primary" : "hover:bg-accent-muted"
+              className={`glass capsule hidden 2xl:flex items-center gap-2 text-sm font-medium transition-all active:scale-95 focus-visible:ring-2 focus-visible:ring-primary outline-none ${pathname === "/contact" ? "bg-accent-muted text-primary" : "hover:bg-accent-muted"
                 }`}
             >
               <Mail className="w-4 h-4" />
@@ -144,7 +146,7 @@ export function Navbar() {
 
             <button
               onClick={toggleMenu}
-              className="md:hidden glass capsule p-2 flex items-center justify-center hover:bg-accent-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary outline-none"
+              className="2xl:hidden glass capsule p-2 flex items-center justify-center hover:bg-accent-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary outline-none"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMenuOpen}
             >

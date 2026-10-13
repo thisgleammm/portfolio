@@ -46,15 +46,6 @@
   }
 }
 
-/* Reveal Utility for GSAP (OUTSIDE @theme) */
-.nav-reveal,
-.hero-reveal,
-.footer-reveal {
-  opacity: 0;
-}
-
-
-
 :root {
   --background: oklch(0.948 0.0053 106.5);
   --foreground: oklch(0.22 0.008 106.5);
