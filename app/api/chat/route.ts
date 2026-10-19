@@ -1,26 +1,37 @@
 import { NextResponse } from 'next/server';
-import { neon } from '@neondatabase/serverless';
+import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
 import { auth, currentUser } from '@clerk/nextjs/server';
 
-// Initialize the Neon database connection
-const sql = neon(process.env.DATABASE_URL!);
+// Initialize the Neon database connection lazily / safely
+const getSql = () => {
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL environment variable is not defined');
+  }
+  return neon(process.env.DATABASE_URL);
+};
+
+let tableInitialized = false;
+async function ensureTable(sql: NeonQueryFunction<false, false>) {
+  if (tableInitialized) return;
+  await sql`
+    CREATE TABLE IF NOT EXISTS messages (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id VARCHAR(100) NOT NULL,
+      user_name VARCHAR(100) NOT NULL,
+      user_image TEXT,
+      content TEXT NOT NULL,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+  tableInitialized = true;
+}
 
 export async function GET() {
   try {
-    // 1. Create table if it doesn't exist
-    // Note: We normally do this via migrations, but for simplicity here we ensure the table exists.
-    await sql`
-      CREATE TABLE IF NOT EXISTS messages (
-        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        user_id VARCHAR(100) NOT NULL,
-        user_name VARCHAR(100) NOT NULL,
-        user_image TEXT,
-        content TEXT NOT NULL,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-      );
-    `;
+    const sql = getSql();
+    await ensureTable(sql);
 
-    // 2. Fetch the 100 most recent messages, ordered chronologically
+    // Fetch the 100 most recent messages, ordered chronologically
     const messages = await sql`
       SELECT 
         id, 
@@ -44,6 +55,9 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const sql = getSql();
+    await ensureTable(sql);
+
     // 1. SERVER-SIDE AUTHENTICATION (Never trust client identity payload)
     const { userId } = await auth();
     if (!userId) {
@@ -82,18 +96,17 @@ export async function POST(req: Request) {
       }, { status: 429 });
     }
 
-    // 5. XSS SANITIZATION (Basic HTML escaping)
-    // Rule: frontend-security (Protect against script injection)
+    // 5. MAX LENGTH & XSS SANITIZATION
+    if (content.length > 500) {
+      return NextResponse.json({ error: 'Content exceeds 500 characters limit' }, { status: 400 });
+    }
+
     content = content
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
-
-    if (content.length > 1500) {
-      return NextResponse.json({ error: 'Content too long' }, { status: 400 });
-    }
 
     // 6. INSERT VERIFIED DATA INTO DATABASE
     const result = await sql`

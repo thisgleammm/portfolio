@@ -76,33 +76,6 @@ function RotatingPhrase() {
 }
 
 const HeroContent = React.memo(() => {
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // LCP Optimization: Render non-animated content immediately for SSR/Initial Paint
-  if (!mounted) {
-    return (
-      <main className="flex min-h-screen w-full flex-col items-center justify-between px-6 text-center pt-32 pb-4 md:pt-40 md:pb-6 relative overflow-hidden">
-        <div className="space-y-4 md:space-y-6 max-w-4xl flex-1 flex flex-col justify-center">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black uppercase tracking-tighter text-black dark:text-white">
-            Hi, I&apos;m <span className="text-primary">Gleam</span>.
-          </h2>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase text-foreground leading-[0.95] md:leading-[0.9] tracking-tighter text-balance">
-            I make internal tools <br className="hidden md:block" />{" "}
-            <span className="text-primary">people actually use.</span>
-          </h1>
-          <p className="mt-6 md:mt-8 mx-auto max-w-2xl text-md md:text-xl text-muted-foreground font-medium leading-relaxed">
-            Web apps, mobile apps, and camera systems for production floors.
-          </p>
-        </div>
-        <div className="w-full h-24" /> {/* Placeholder for bottom row */}
-      </main>
-    );
-  }
-
   return (
     <motion.main
       initial="hidden"
@@ -140,14 +113,12 @@ const HeroContent = React.memo(() => {
         className="w-full flex flex-col items-center justify-between gap-6 mt-16 md:flex-row"
       >
         <motion.div variants={ITEM_VARIANTS} className="order-2 md:order-1">
-          {mounted && (
-            <span className="text-[10px] md:text-xs font-mono text-muted-foreground opacity-70 px-4 py-2 glass capsule hover:opacity-100 transition-all hover:border-primary/40 cursor-default select-none">
-              {"// Think, Build, "}{" "}
-              <span className="text-primary font-bold opacity-100">
-                {"Deploy"}
-              </span>
+          <span className="text-[10px] md:text-xs font-mono text-muted-foreground opacity-70 px-4 py-2 glass capsule hover:opacity-100 transition-all hover:border-primary/40 cursor-default select-none">
+            {"// Think, Build, "}{" "}
+            <span className="text-primary font-bold opacity-100">
+              {"Deploy"}
             </span>
-          )}
+          </span>
         </motion.div>
 
         <div className="flex flex-col items-center gap-4 order-1 md:order-2 md:flex-row">

@@ -8,48 +8,6 @@ import { Layers, Cpu, Award, Briefcase, Terminal } from "lucide-react";
 import { ScrollReveal } from "@/components/scroll-reveal";
 
 export default function AboutContent() {
-  const [mounted, setMounted] = React.useState(false);
-  
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const [displayText, setDisplayText] = React.useState("");
-  const [isDeleting, setIsDeleting] = React.useState(false);
-  const name = "Gleam";
-
-    const [isStarted, setIsStarted] = React.useState(false);
-
-    React.useEffect(() => {
-    if (!mounted) return;
-    
-    if (!isStarted) {
-      const startTimeout = setTimeout(() => setIsStarted(true), 1200);
-      return () => clearTimeout(startTimeout);
-    }
-
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        // Typing
-        if (displayText.length < name.length) {
-          setDisplayText(name.slice(0, displayText.length + 1));
-        } else {
-          // Pause before deleting
-          setTimeout(() => setIsDeleting(true), 2500);
-        }
-      } else {
-        // Deleting
-        if (displayText.length > 0) {
-          setDisplayText(name.slice(0, displayText.length - 1));
-        } else {
-          setIsDeleting(false);
-        }
-      }
-    }, isDeleting ? 100 : 200);
-
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, name, mounted, isStarted]);
-
   return (
     <main className="min-h-screen w-full flex flex-col bg-background text-foreground transition-colors duration-500 selection:bg-primary/20 selection:text-primary overflow-x-hidden">
       <Navbar />
@@ -67,35 +25,22 @@ export default function AboutContent() {
           </motion.span>
           
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter uppercase leading-none">
-            {!mounted ? (
-              <>
-                <span className="block">Muhammad</span>
-                <span className="text-primary italic">Gleam</span>
-              </>
-            ) : (
-              <>
-                <motion.span
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                  className="block"
-                >
-                  Muhammad
-                </motion.span>
-                <motion.span 
-                  className="text-primary italic block min-h-[1em] relative"
-                >
-                  {displayText}
-                  {isStarted && (
-                    <motion.span
-                      animate={{ opacity: [1, 0] }}
-                      transition={{ duration: 0.8, repeat: Infinity }}
-                      className="inline-block w-2 md:w-3 lg:w-4 h-[0.7em] bg-primary ml-2 align-middle -mt-2"
-                    />
-                  )}
-                </motion.span>
-              </>
-            )}
+            <motion.span
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+              className="block"
+            >
+              Muhammad
+            </motion.span>
+            <motion.span 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.25 }}
+              className="text-primary italic block"
+            >
+              Gleam
+            </motion.span>
           </h1>
           
           <motion.p 
